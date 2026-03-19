@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">fitNova</string>
+    <string name="register_string">Not Registered? Sign Up Here</string>
+    <string name="login">LOGIN</string>
+    <string name="email">Email</string>
+    <string name="Password">Password</string>
+    <string name="Re_Password">Re_enter Password</string>
+    <string name="email_hint">Enter email address</string>
+    <string name="Password_hint">Enter password</string>
+    <string name="sign_in">SING IN</string>
+    <string name="sign_up">SING UP</string>
+    <string name="register_msg">Not Registered yet? Sign Up Here !!!</string>
+    <string name="profile">Fill Your Profile</string>
+    <string name="fullName">Enter your full name</string>
+    <string name="Gender">Choose Gender</string>
+    <string name="Age">How old are you?</string>
+    <string name="Weight">What is your current weight(kg)?</string>
+    <string name="Height">What is your height (cm)?</string>
+    <string name="register">Register</string>
+    <style name="CircleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+</resources>
