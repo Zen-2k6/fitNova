@@ -2,12 +2,16 @@ package uk.ncc.fitNova
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -23,7 +27,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        applySystemBarInsets(findViewById(R.id.main))
 
         // Initialize UI Elements
         userName = findViewById(R.id.etUsername)
@@ -44,9 +50,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun applySystemBarInsets(view: View) {
+        val initialLeft = view.paddingLeft
+        val initialTop = view.paddingTop
+        val initialRight = view.paddingRight
+        val initialBottom = view.paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { target, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            target.setPadding(
+                initialLeft + systemBars.left,
+                initialTop + systemBars.top,
+                initialRight + systemBars.right,
+                initialBottom + systemBars.bottom
+            )
+            insets
+        }
+
+        ViewCompat.requestApplyInsets(view)
+    }
+
     private fun validate(): Boolean {
         if (userName.text.toString().trim().isEmpty()) {
-            userName.error = "Enter Username"
+            userName.error = "Enter Email"
             return false
         }
 
@@ -63,14 +89,12 @@ class MainActivity : AppCompatActivity() {
         val username = userName.text.toString().trim()
         val passwordText = password.text.toString().trim()
 
-        val URL_Root = "http://10.0.2.2/rundao/LoginDAO.php"
-
         val stringRequest = object : StringRequest(
-            Request.Method.POST, URL_Root,
+            Request.Method.POST, BackendConfig.LOGIN_URL,
             Response.Listener<String> { response ->
 
                 try {
-                    val obj = JSONObject(response)
+                    val obj = JSONObject(response.trim())
                     val responseSuccess = obj.getString("response")
 
                     if (responseSuccess == "true") {
@@ -98,8 +122,9 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         val intentFitness =
-                            Intent(this@MainActivity, ActivityFitness::class.java)
+                            Intent(this@MainActivity, FitnessActivity::class.java)
                         startActivity(intentFitness)
+                        finish()
 
                     } else {
                         Toast.makeText(this, "Account does not exist", Toast.LENGTH_SHORT).show()

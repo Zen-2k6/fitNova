@@ -1,11 +1,15 @@
 package uk.ncc.fitNova
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -15,7 +19,6 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import org.json.JSONException
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -38,7 +41,9 @@ class RegistrationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(R.layout.activity_registration)
+        applySystemBarInsets(findViewById(R.id.svRegister))
 
         //UI Initialization
         fnameTet = findViewById<TextInputEditText>(R.id.tieFullName)
@@ -53,6 +58,8 @@ class RegistrationActivity : AppCompatActivity() {
         heightSld = findViewById<Slider>(R.id.sldHeight)
         heightVal = findViewById<TextView>(R.id.sldValHeight)
         var btnReg = findViewById<Button>(R.id.btnRegister)
+
+        syncSliderValues()
 
         //slider listener
         ageSld.addOnChangeListener { _, value, _ ->
@@ -88,11 +95,39 @@ class RegistrationActivity : AppCompatActivity() {
             } else {
                 Snackbar.make(btnReg, "Please fill all fields correctly", Snackbar.LENGTH_LONG)
                     .show()
-                }
-
-            finish()
+            }
         }
     }//end of onCreate()
+
+    private fun applySystemBarInsets(view: View) {
+        val initialLeft = view.paddingLeft
+        val initialTop = view.paddingTop
+        val initialRight = view.paddingRight
+        val initialBottom = view.paddingBottom
+
+        ViewCompat.setOnApplyWindowInsetsListener(view) { target, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            target.setPadding(
+                initialLeft + systemBars.left,
+                initialTop + systemBars.top,
+                initialRight + systemBars.right,
+                initialBottom + systemBars.bottom
+            )
+            insets
+        }
+
+        ViewCompat.requestApplyInsets(view)
+    }
+
+    private fun syncSliderValues() {
+        age = ageSld.value.toInt().toString()
+        weight = weightSld.value.toInt().toString()
+        height = heightSld.value.toInt().toString()
+
+        ageVal.text = "Age: $age"
+        weightVal.text = "Weight(kg): $weight"
+        heightVal.text = "Height(cm): $height"
+    }
 
     private fun getUserData(): UserData {
         return UserData(
@@ -147,28 +182,22 @@ class RegistrationActivity : AppCompatActivity() {
 
     //register() Function
     private fun register() {
-//        val login_method = "Login"
-        var URL_Root = "http://10.0.2.2/fitNova/RegistrationDAO.php"
         val userData = getUserData()
 
         //Create volley string request
         val stringRequest = object : StringRequest(
-            Request.Method.POST, URL_Root,
+            Request.Method.POST, BackendConfig.REGISTRATION_URL,
             Response.Listener<String> { response ->
-                try {
-                    //Log.d("Response", response)
-                    if (response == "true") {
-                        Toast.makeText(
-                            this,
-                            "You are successfully registered",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
-                    } else {
-                        Toast.makeText(this, response, Toast.LENGTH_LONG).show()
-                    }
-                } catch (e: JSONException) {
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                val trimmedResponse = response.trim()
+                if (trimmedResponse == "true") {
+                    Toast.makeText(
+                        this,
+                        "You are successfully registered",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, trimmedResponse, Toast.LENGTH_LONG).show()
                 }
             },
             object : Response.ErrorListener {
