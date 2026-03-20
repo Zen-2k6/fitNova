@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitNova">
         <activity
-            android:name=".ActivityFitness"
+            android:name=".FitnessActivity"
             android:exported="false" />
         <activity
             android:name=".RegistrationActivity"

@@ -7,4 +7,18 @@
     <color name="apple">#EBE59B</color>
     <color name="red_brown">#CE7E5A</color>
     <color name="grey_blue">#f3f6f4</color>
+    <color name="fitness_background">#F4F1EA</color>
+    <color name="fitness_card">#FFFDFC</color>
+    <color name="fitness_card_stroke">#E5DDD4</color>
+    <color name="fitness_primary">#1D3557</color>
+    <color name="fitness_primary_soft">#DCE9F7</color>
+    <color name="fitness_accent">#D06B4A</color>
+    <color name="fitness_warm_soft">#F7E7D7</color>
+    <color name="fitness_text_primary">#1F2933</color>
+    <color name="fitness_text_secondary">#5B6570</color>
+    <color name="auth_dark_background">#08152D</color>
+    <color name="auth_button_blue">#0A2D8F</color>
+    <color name="auth_input_line">#D8D8D8</color>
+    <color name="auth_hint">#9A9A9A</color>
+    <color name="auth_logo_chip">#163667</color>
 </resources>
