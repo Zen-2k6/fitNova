@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Data into MySQL</title>
+</head>
+<body>
+    <div>
+        <h2>Registration</h2>
+        
+        <form action="RegistrationDAO.php" method="post">
+            <input type="hidden" name="phpFunction" value="createUser">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="fullName" required>
+            <br><br>
+            <label for="name">Email:</label>
+            <input type="email" id="name" name="email" required>
+            <br><br>
+            <p>Please Select Gender:</p>
+            <input type="radio" id="gender" name="gender" value="Male">
+            <label for="gender">Male</label><br>
+            <input type="radio" id="gender" name="gender" value="Female">
+            <label for="gender">Female</label><br><br>
+            <label for="name">Password:</label>
+            <input type="password" id="name" name="password" required>
+            <br><br>
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" required>
+            <br><br>
+            <label for="weight">Weight(kg):</label>
+            <input type="text" id="weight" name="weight" required>
+            <br><br>
+            <label for="height">Height(cm):</label>
+            <input type="text" id="height" name="height" required>
+            <br><br>
+            <input type="submit" value="Insert Data">
+        </form><br><br>
+
+        <form action="LoginDAO.php" method="post">
+            <input type="hidden" name="phpFunction" value="login">
+            <label for="name">User Name:</label>
+            <input type="email" id="name" name="username" required>
+            <br><br>
+            <label for="name">Password:</label>
+            <input type="password" id="name" name="password" required>
+            <br><br>
+            <input type="submit" value="Login">
+        </form><br><br>
+    </div>
+    
+</body>
+</html>
