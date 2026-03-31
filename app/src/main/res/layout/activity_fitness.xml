@@ -23,7 +23,7 @@
             android:paddingStart="24dp"
             android:paddingTop="18dp"
             android:paddingEnd="24dp"
-            android:paddingBottom="18dp">
+            android:paddingBottom="12dp">
 
             <FrameLayout
                 android:layout_width="52dp"
@@ -40,9 +40,10 @@
             </FrameLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -61,15 +62,24 @@
                     android:textColor="#B8C6E6"
                     android:textSize="13sp" />
             </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnProfile"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_profile_icon_button"
+                android:contentDescription="@string/fitness_profile_button"
+                android:padding="10dp"
+                android:src="@drawable/ic_profile"
+                android:tint="@color/white" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="14dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
@@ -99,9 +109,19 @@
                     tools:text="Welcome back, Ruki" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvProfileMeta"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/auth_hint"
+                    android:textSize="13sp"
+                    tools:text="ruki@email.com  •  28 yrs  •  Female" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/fitness_dashboard_subtitle"
                     android:textColor="@color/auth_hint"
@@ -126,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/fitness_metric_weight"
                             android:textColor="@color/fitness_text_secondary"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tvWeightValue"
@@ -156,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/fitness_metric_height"
                             android:textColor="@color/fitness_text_secondary"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
 
                         <TextView
                             android:id="@+id/tvHeightValue"
@@ -172,12 +192,22 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/fitness_signals_title"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="18dp"
             android:orientation="horizontal">
 
             <com.google.android.material.card.MaterialCardView
@@ -185,14 +215,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="10dp">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -234,14 +264,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="10dp">
+                app:cardCornerRadius="24dp"
+                app:cardElevation="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="18dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -256,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:textColor="@color/fitness_text_primary"
-                        android:textSize="32sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         tools:text="2.5 L / day" />
 
@@ -275,11 +305,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="14dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="10dp">
+            app:cardCornerRadius="24dp"
+            app:cardElevation="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -298,7 +328,7 @@
                     android:id="@+id/tvWeightRangeValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/fitness_text_primary"
                     android:textSize="24sp"
                     android:textStyle="bold"
@@ -314,7 +344,7 @@
 
                 <TextView
                     android:id="@+id/tvCoachingTip"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:lineSpacingExtra="4dp"
@@ -324,19 +354,214 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/fitness_start_workout"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogout"
+            android:id="@+id/btnWorkoutHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="12dp"
-            android:minHeight="52dp"
-            android:text="@string/fitness_logout"
+            android:minHeight="48dp"
+            android:text="@string/workout_history_button"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:backgroundTint="@color/auth_logo_chip"
+            app:cornerRadius="24dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAnalysisReport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:minHeight="48dp"
+            android:text="@string/analysis_report_button"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:backgroundTint="@color/auth_button_blue"
-            app:cornerRadius="26dp" />
+            app:cornerRadius="24dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRunning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/fitness_primary_soft"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness_activity_running"
+                        android:textColor="@color/fitness_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/fitness_running_body"
+                        android:textColor="@color/fitness_text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWalking"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/fitness_warm_soft"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness_activity_walking"
+                        android:textColor="@color/fitness_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/fitness_walking_body"
+                        android:textColor="@color/fitness_text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardWeightLifting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/fitness_primary_soft"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness_activity_weight"
+                        android:textColor="@color/fitness_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/fitness_weight_body"
+                        android:textColor="@color/fitness_text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCycling"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@color/fitness_warm_soft"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness_activity_cycling"
+                        android:textColor="@color/fitness_text_primary"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/fitness_cycling_body"
+                        android:textColor="@color/fitness_text_secondary"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

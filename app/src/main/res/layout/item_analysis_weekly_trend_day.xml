@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTrendValueLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:textColor="@color/fitness_text_secondary"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        tools:text="42m" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="110dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/viewTrendRunningBar"
+            android:layout_width="8dp"
+            android:layout_height="36dp"
+            android:background="@color/auth_button_blue"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="1dp" />
+
+        <View
+            android:id="@+id/viewTrendWalkingBar"
+            android:layout_width="8dp"
+            android:layout_height="48dp"
+            android:background="@color/fitness_accent"
+            tools:ignore="ContentDescription" />
+
+        <Space
+            android:layout_width="4dp"
+            android:layout_height="1dp" />
+
+        <View
+            android:id="@+id/viewTrendCyclingBar"
+            android:layout_width="8dp"
+            android:layout_height="26dp"
+            android:background="@color/red_brown"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTrendDayLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/fitness_text_secondary"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        tools:text="Tue" />
+</LinearLayout>

@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         applySystemBarInsets(findViewById(R.id.main))
 
+        if (openDashboardIfSessionExists()) {
+            return
+        }
+
         // Initialize UI Elements
         userName = findViewById(R.id.etUsername)
         password = findViewById(R.id.etPassword)
@@ -103,6 +107,9 @@ class MainActivity : AppCompatActivity() {
                         val fullName = obj.getString("FullName")
                         val weight = obj.getString("Weight")
                         val height = obj.getString("Height")
+                        val email = obj.optString("Email")
+                        val gender = obj.optString("Gender")
+                        val age = obj.optInt("Age", 0)
 
                         Toast.makeText(
                             this,
@@ -116,6 +123,9 @@ class MainActivity : AppCompatActivity() {
                             putBoolean("IS_LOGGED_IN", true)
                             putInt("User_id", userid.toInt())
                             putString("Full_name", fullName)
+                            putString("Email", email)
+                            putString("Gender", gender)
+                            putInt("Age", age)
                             putInt("Weight", weight.toInt())
                             putInt("Height", height.toInt())
                             apply()
@@ -156,5 +166,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         Volley.newRequestQueue(this).add(stringRequest)
+    }
+
+    private fun openDashboardIfSessionExists(): Boolean {
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val isLoggedIn = sharedPref.getBoolean("IS_LOGGED_IN", false)
+        val userId = sharedPref.getInt("User_id", -1)
+
+        if (!isLoggedIn || userId <= 0) {
+            return false
+        }
+
+        val intentFitness = Intent(this, FitnessActivity::class.java)
+        intentFitness.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intentFitness)
+        finish()
+        return true
     }
 }

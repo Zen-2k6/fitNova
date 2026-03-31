@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/auth_dark_background"
+    android:fillViewport="true"
+    tools:context=".WorkoutHistoryActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="28dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingTop="18dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="12dp">
+
+            <FrameLayout
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:background="@color/auth_logo_chip">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/fitness_logo" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/workout_history_title"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/workout_history_subtitle"
+                    android:textColor="#B8C6E6"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackWorkoutHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:text="@string/profile_cancel_button"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:backgroundTint="@color/auth_logo_chip"
+                app:cornerRadius="20dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvWorkoutHistoryLoading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/workout_history_loading"
+            android:textColor="#B8C6E6"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvWorkoutHistoryEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/workout_history_empty"
+            android:textColor="#B8C6E6"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llWorkoutHistoryItems"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
+</ScrollView>

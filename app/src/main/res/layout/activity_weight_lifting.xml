@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/auth_dark_background"
+    android:fillViewport="true"
+    tools:context=".WeightLiftingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fitness_dashboard_label"
+                android:textColor="#B8C6E6"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/weight_lifting_title"
+                android:textColor="@color/white"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:lineSpacingExtra="2dp"
+                android:text="@string/weight_lifting_subtitle"
+                android:textColor="#B8C6E6"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_session_label"
+                    android:textColor="@color/auth_button_blue"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvSessionTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="00:00"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    tools:text="18:42" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/weight_lifting_session_hint"
+                    android:textColor="@color/auth_hint"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnToggleSession"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="52dp"
+                        android:text="@string/weight_lifting_start_session"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/auth_button_blue"
+                        app:cornerRadius="26dp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnFinishSession"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="52dp"
+                        android:text="@string/weight_lifting_finish_session"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/red"
+                        app:cornerRadius="26dp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/fitness_primary_soft"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_total_sets"
+                    android:textColor="@color/fitness_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvTotalSetsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="0"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    tools:text="8" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/fitness_warm_soft"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_total_reps"
+                    android:textColor="@color/fitness_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvTotalRepsValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="0"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="26sp"
+                    android:textStyle="bold"
+                    tools:text="76" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_total_volume"
+                    android:textColor="@color/fitness_text_secondary"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvTotalVolumeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/weight_lifting_volume_default"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="640 kg" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_log_title"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/weight_lifting_log_body"
+                    android:textColor="@color/auth_hint"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:hint="@string/weight_lifting_exercise_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tieExerciseName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        tools:text="Bench Press" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/weight_lifting_weight">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tieWeightValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:maxLines="1"
+                            tools:text="40" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/weight_lifting_reps">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/tieRepsValue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            tools:text="10" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddSet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:minHeight="52dp"
+                    android:text="@string/weight_lifting_add_set"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/auth_button_blue"
+                    app:cornerRadius="26dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_rest_title"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/weight_lifting_rest_body"
+                    android:textColor="@color/auth_hint"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvRestTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/weight_lifting_rest_ready"
+                    android:textColor="@color/auth_button_blue"
+                    android:textSize="32sp"
+                    android:textStyle="bold"
+                    tools:text="01:30" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRest60"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/weight_lifting_rest_60"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/auth_button_blue"
+                        app:cornerRadius="24dp" />
+
+                    <Space
+                        android:layout_width="12dp"
+                        android:layout_height="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnRest90"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:text="@string/weight_lifting_rest_90"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/fitness_accent"
+                        app:cornerRadius="24dp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnResetRest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:minHeight="48dp"
+                    android:text="@string/weight_lifting_reset_rest"
+                    android:textAllCaps="false"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/fitness_primary_soft"
+                    app:cornerRadius="24dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/weight_lifting_history_title"
+                    android:textColor="@color/fitness_text_primary"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmptyHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/weight_lifting_history_empty"
+                    android:textColor="@color/auth_hint"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:id="@+id/llSetHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>
