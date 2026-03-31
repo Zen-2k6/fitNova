@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="20dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvWorkoutHistoryType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/fitness_text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="Weight Lifting" />
+
+        <TextView
+            android:id="@+id/tvWorkoutHistoryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/auth_hint"
+            android:textSize="13sp"
+            tools:text="2026-03-31 21:40:00" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvWorkoutHistoryDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/fitness_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Time: 32:40" />
+
+            <TextView
+                android:id="@+id/tvWorkoutHistorySets"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/fitness_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Sets: 8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvWorkoutHistoryReps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/fitness_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Reps: 52" />
+
+            <TextView
+                android:id="@+id/tvWorkoutHistoryVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/fitness_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Volume: 920 kg" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvWorkoutHistoryOutdoorStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:textColor="@color/fitness_text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:text="68% to destination"
+            tools:visibility="visible" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressWorkoutHistoryDestination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:visibility="gone"
+            app:indicatorColor="@color/auth_button_blue"
+            app:trackColor="@color/fitness_primary_soft"
+            app:trackThickness="8dp"
+            tools:progress="68"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tvWorkoutHistorySetTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/workout_history_set_log_title"
+            android:textColor="@color/fitness_text_secondary"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvWorkoutHistorySetEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/workout_history_set_log_empty"
+            android:textColor="@color/auth_hint"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/llWorkoutHistorySetPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

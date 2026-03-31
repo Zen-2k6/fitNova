@@ -21,4 +21,22 @@
     <color name="auth_input_line">#D8D8D8</color>
     <color name="auth_hint">#9A9A9A</color>
     <color name="auth_logo_chip">#163667</color>
+    <color name="dashboard_page_background">#F6EEE2</color>
+    <color name="dashboard_surface">#FFF9F1</color>
+    <color name="dashboard_surface_soft">#F3E5D4</color>
+    <color name="dashboard_line">#DFCFBD</color>
+    <color name="dashboard_ink">#172636</color>
+    <color name="dashboard_ink_muted">#5F685F</color>
+    <color name="dashboard_hero_top">#15394E</color>
+    <color name="dashboard_hero_bottom">#4D6B59</color>
+    <color name="dashboard_button_light">#F6E7D2</color>
+    <color name="dashboard_button_clay">#C46D46</color>
+    <color name="dashboard_card_sage">#DCE7DE</color>
+    <color name="dashboard_card_clay">#F1D6C6</color>
+    <color name="dashboard_card_sun">#F0E2A8</color>
+    <color name="dashboard_card_sand">#E9D9C6</color>
+    <color name="dashboard_activity_running">#E2EBE4</color>
+    <color name="dashboard_activity_walking">#F2E3D1</color>
+    <color name="dashboard_activity_weight">#DCE7EF</color>
+    <color name="dashboard_activity_cycling">#EEDFD5</color>
 </resources>
