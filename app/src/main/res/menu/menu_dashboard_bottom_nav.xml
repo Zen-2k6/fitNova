@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navDashboardHome"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/dashboard_nav_home" />
+    <item
+        android:id="@+id/navDashboardActivities"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/dashboard_nav_activities" />
+    <item
+        android:id="@+id/navDashboardHistory"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/dashboard_nav_history" />
+    <item
+        android:id="@+id/navDashboardReport"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/dashboard_nav_report" />
+</menu>

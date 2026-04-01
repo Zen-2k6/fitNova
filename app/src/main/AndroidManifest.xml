@@ -44,7 +44,7 @@
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="API_KEY_HERE" />
+            android:value="PUT-YOUR-API-KEY-HERE" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
