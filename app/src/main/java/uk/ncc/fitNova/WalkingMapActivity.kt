@@ -12,6 +12,8 @@ import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.HorizontalScrollView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -46,12 +48,16 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var sessionTitleText: TextView
     private lateinit var durationValueText: TextView
     private lateinit var distanceValueText: TextView
+    private lateinit var speedValueText: TextView
     private lateinit var caloriesValueText: TextView
     private lateinit var destinationValueText: TextView
     private lateinit var remainingValueText: TextView
@@ -60,6 +66,22 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var finishButton: MaterialButton
     private lateinit var setTargetDurationButton: MaterialButton
     private lateinit var targetDurationProgress: LinearProgressIndicator
+    private lateinit var dataPanelLayout: LinearLayout
+    private lateinit var logPanelLayout: LinearLayout
+    private lateinit var panelDataButton: MaterialButton
+    private lateinit var panelLogButton: MaterialButton
+    private lateinit var logTitleText: TextView
+    private lateinit var logLoadingText: TextView
+    private lateinit var logEmptyText: TextView
+    private lateinit var logSummaryRow: LinearLayout
+    private lateinit var logSessionsSummaryText: TextView
+    private lateinit var logBestSummaryText: TextView
+    private lateinit var logAverageSummaryText: TextView
+    private lateinit var logChartTitleText: TextView
+    private lateinit var logChartScroll: HorizontalScrollView
+    private lateinit var logChartContainer: LinearLayout
+    private lateinit var logLatestTitleText: TextView
+    private lateinit var logItemsContainer: LinearLayout
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
@@ -75,6 +97,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var isSaving = false
     private var secondsElapsed = 0
     private var totalDistanceMeters = 0.0
+    private var currentSpeedMetersPerSecond = 0.0
     private var caloriesBurned = 0.0
     private var hasCenteredMap = false
     private var hasArrivedAtDestination = false
@@ -82,7 +105,11 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var lastLocation: Location? = null
     private var destinationPoint: LatLng? = null
     private var targetDurationSeconds = 0
+    private var selectedPanel = PANEL_DATA
+    private var hasLoadedLog = false
+    private var isLogLoading = false
     private val routePoints = arrayListOf<LatLng>()
+    private val outdoorLogSessions = mutableListOf<WorkoutHistorySession>()
 
     private val timerHandler = Handler(Looper.getMainLooper())
     private val timerRunnable = object : Runnable {
@@ -122,6 +149,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         workoutType = savedInstanceState?.getString(KEY_WORKOUT_TYPE)
             ?: intent.getStringExtra(EXTRA_WORKOUT_TYPE)?.lowercase(Locale.US)
             ?: WORKOUT_TYPE_WALKING
+        selectedPanel = savedInstanceState?.getString(KEY_SELECTED_PANEL) ?: PANEL_DATA
 
         bindViews()
         setupLocationTracking()
@@ -133,6 +161,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
             renderMetrics()
             updateToggleButton()
         }
+        showSelectedPanel(loadLogIfNeeded = selectedPanel == PANEL_LOG)
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -143,6 +172,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         sessionTitleText = findViewById(R.id.tvOutdoorSessionTitle)
         durationValueText = findViewById(R.id.tvOutdoorDurationValue)
         distanceValueText = findViewById(R.id.tvOutdoorDistanceValue)
+        speedValueText = findViewById(R.id.tvOutdoorSpeedValue)
         caloriesValueText = findViewById(R.id.tvOutdoorCaloriesValue)
         destinationValueText = findViewById(R.id.tvOutdoorDestinationValue)
         remainingValueText = findViewById(R.id.tvOutdoorRemainingValue)
@@ -151,10 +181,38 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         finishButton = findViewById(R.id.btnFinishOutdoorWorkout)
         setTargetDurationButton = findViewById(R.id.btnSetOutdoorDuration)
         targetDurationProgress = findViewById(R.id.progressOutdoorTargetDuration)
+        dataPanelLayout = findViewById(R.id.layoutOutdoorDataPanel)
+        logPanelLayout = findViewById(R.id.layoutOutdoorLogPanel)
+        panelDataButton = findViewById(R.id.btnOutdoorPanelData)
+        panelLogButton = findViewById(R.id.btnOutdoorPanelLog)
+        logTitleText = findViewById(R.id.tvOutdoorLogTitle)
+        logLoadingText = findViewById(R.id.tvOutdoorLogLoading)
+        logEmptyText = findViewById(R.id.tvOutdoorLogEmpty)
+        logSummaryRow = findViewById(R.id.layoutOutdoorLogSummaryRow)
+        logSessionsSummaryText = findViewById(R.id.tvOutdoorLogSessionsSummary)
+        logBestSummaryText = findViewById(R.id.tvOutdoorLogBestSummary)
+        logAverageSummaryText = findViewById(R.id.tvOutdoorLogAverageSummary)
+        logChartTitleText = findViewById(R.id.tvOutdoorLogChartTitle)
+        logChartScroll = findViewById(R.id.scrollOutdoorLogChart)
+        logChartContainer = findViewById(R.id.llOutdoorLogChart)
+        logLatestTitleText = findViewById(R.id.tvOutdoorLogLatestTitle)
+        logItemsContainer = findViewById(R.id.llOutdoorLogItems)
 
         sessionTitleText.text = getString(
-            R.string.outdoor_workout_session_title,
+            R.string.outdoor_workout_header_title,
             getWorkoutTypeLabel()
+        )
+        logTitleText.text = getString(
+            R.string.outdoor_workout_tab_log,
+            getWorkoutTypeTabLabel()
+        )
+        panelDataButton.text = getString(
+            R.string.outdoor_workout_tab_data,
+            getWorkoutTypeTabLabel()
+        )
+        panelLogButton.text = getString(
+            R.string.outdoor_workout_tab_log,
+            getWorkoutTypeTabLabel()
         )
     }
 
@@ -183,6 +241,14 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
         finishButton.setOnClickListener { saveSessionAndFinish() }
         setTargetDurationButton.setOnClickListener { showTargetDurationDialog() }
+        panelDataButton.setOnClickListener {
+            selectedPanel = PANEL_DATA
+            showSelectedPanel()
+        }
+        panelLogButton.setOnClickListener {
+            selectedPanel = PANEL_LOG
+            showSelectedPanel()
+        }
     }
 
     private fun applySystemBarInsets(view: View) {
@@ -241,17 +307,21 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         lastLocation = null
+        currentSpeedMetersPerSecond = 0.0
         isTracking = true
         timerHandler.removeCallbacks(timerRunnable)
         timerHandler.postDelayed(timerRunnable, 1000)
         startLocationUpdates()
+        renderMetrics()
         updateToggleButton()
     }
 
     private fun pauseTracking() {
         isTracking = false
+        currentSpeedMetersPerSecond = 0.0
         timerHandler.removeCallbacks(timerRunnable)
         stopLocationUpdates()
+        renderMetrics()
         updateToggleButton()
     }
 
@@ -294,6 +364,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         val point = LatLng(location.latitude, location.longitude)
+        currentSpeedMetersPerSecond = location.speed.toDouble().coerceAtLeast(0.0)
 
         if (routePoints.isEmpty()) {
             routePoints.add(point)
@@ -317,13 +388,22 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         val segmentDistance = previousLocation.distanceTo(location).toDouble()
+        val segmentDurationSeconds = ((location.time - previousLocation.time).toDouble() / 1000.0)
+            .coerceAtLeast(0.0)
         if (
             segmentDistance < MIN_TRACKABLE_SEGMENT_METERS ||
             segmentDistance > MAX_TRACKABLE_SEGMENT_METERS
         ) {
+            if (currentSpeedMetersPerSecond <= 0.0 && segmentDurationSeconds > 0.0) {
+                currentSpeedMetersPerSecond = segmentDistance / segmentDurationSeconds
+            }
+            renderMetrics()
             return
         }
 
+        if (currentSpeedMetersPerSecond <= 0.0 && segmentDurationSeconds > 0.0) {
+            currentSpeedMetersPerSecond = segmentDistance / segmentDurationSeconds
+        }
         totalDistanceMeters += segmentDistance
         routePoints.add(point)
         recalculateCalories()
@@ -381,6 +461,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun renderMetrics() {
         durationValueText.text = formatDuration(secondsElapsed)
         distanceValueText.text = formatDistance(totalDistanceMeters)
+        speedValueText.text = formatSpeed(currentSpeedMetersPerSecond)
         caloriesValueText.text = formatCalories(caloriesBurned)
         renderTargetDurationInfo()
         renderDestinationInfo()
@@ -525,6 +606,7 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         isSaving = bundle.getBoolean(KEY_IS_SAVING)
         secondsElapsed = bundle.getInt(KEY_SECONDS_ELAPSED)
         totalDistanceMeters = bundle.getDouble(KEY_TOTAL_DISTANCE)
+        currentSpeedMetersPerSecond = bundle.getDouble(KEY_CURRENT_SPEED)
         caloriesBurned = bundle.getDouble(KEY_CALORIES_BURNED)
         hasArrivedAtDestination = bundle.getBoolean(KEY_HAS_ARRIVED_AT_DESTINATION)
         hasReachedTargetDuration = bundle.getBoolean(KEY_HAS_REACHED_TARGET_DURATION)
@@ -577,10 +659,12 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         outState.putBoolean(KEY_IS_SAVING, isSaving)
         outState.putInt(KEY_SECONDS_ELAPSED, secondsElapsed)
         outState.putDouble(KEY_TOTAL_DISTANCE, totalDistanceMeters)
+        outState.putDouble(KEY_CURRENT_SPEED, currentSpeedMetersPerSecond)
         outState.putDouble(KEY_CALORIES_BURNED, caloriesBurned)
         outState.putBoolean(KEY_HAS_ARRIVED_AT_DESTINATION, hasArrivedAtDestination)
         outState.putBoolean(KEY_HAS_REACHED_TARGET_DURATION, hasReachedTargetDuration)
         outState.putInt(KEY_TARGET_DURATION_SECONDS, targetDurationSeconds)
+        outState.putString(KEY_SELECTED_PANEL, selectedPanel)
         outState.putParcelable(KEY_DESTINATION_POINT, destinationPoint)
         outState.putParcelableArrayList(KEY_ROUTE_POINTS, ArrayList(routePoints))
     }
@@ -611,8 +695,48 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    private fun formatSpeed(speedMetersPerSecond: Double): String {
+        val speedKilometersPerHour = speedMetersPerSecond * 3.6
+        return String.format(Locale.getDefault(), "%.1f km/h", speedKilometersPerHour)
+    }
+
     private fun formatCalories(value: Double): String {
         return String.format(Locale.getDefault(), "%.0f kcal", value)
+    }
+
+    private fun formatCaloriesValue(value: Double): String {
+        return String.format(Locale.getDefault(), "%.0f", value)
+    }
+
+    private fun showSelectedPanel(loadLogIfNeeded: Boolean = true) {
+        dataPanelLayout.visibility = if (selectedPanel == PANEL_DATA) View.VISIBLE else View.GONE
+        logPanelLayout.visibility = if (selectedPanel == PANEL_LOG) View.VISIBLE else View.GONE
+        renderPanelButtons()
+
+        if (selectedPanel == PANEL_LOG) {
+            if (hasLoadedLog) {
+                renderLogSessions()
+            } else if (loadLogIfNeeded) {
+                loadOutdoorLog()
+            }
+        }
+    }
+
+    private fun renderPanelButtons() {
+        updatePanelButtonStyle(panelDataButton, selectedPanel == PANEL_DATA)
+        updatePanelButtonStyle(panelLogButton, selectedPanel == PANEL_LOG)
+    }
+
+    private fun updatePanelButtonStyle(button: MaterialButton, isSelected: Boolean) {
+        val backgroundColor = if (isSelected) R.color.auth_button_blue else R.color.fitness_primary_soft
+        val textColor = if (isSelected) R.color.white else R.color.fitness_text_primary
+        val strokeColor = if (isSelected) R.color.auth_button_blue else R.color.auth_button_blue
+
+        button.backgroundTintList =
+            ColorStateList.valueOf(ContextCompat.getColor(this, backgroundColor))
+        button.setTextColor(ContextCompat.getColor(this, textColor))
+        button.strokeColor = ColorStateList.valueOf(ContextCompat.getColor(this, strokeColor))
+        button.alpha = 1f
     }
 
     private fun getWorkoutTypeLabel(): String {
@@ -621,6 +745,352 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
             WORKOUT_TYPE_CYCLING -> getString(R.string.fitness_activity_cycling)
             else -> getString(R.string.fitness_activity_walking)
         }
+    }
+
+    private fun getWorkoutTypeTabLabel(): String {
+        return when (workoutType) {
+            WORKOUT_TYPE_RUNNING -> getString(R.string.outdoor_workout_nav_run)
+            WORKOUT_TYPE_CYCLING -> getString(R.string.outdoor_workout_nav_cycle)
+            else -> getString(R.string.outdoor_workout_nav_walk)
+        }
+    }
+
+    private fun loadOutdoorLog() {
+        if (isLogLoading) {
+            return
+        }
+
+        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val userId = sharedPref.getInt("User_id", -1)
+        if (userId <= 0) {
+            Toast.makeText(this, R.string.outdoor_workout_save_user_missing, Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        isLogLoading = true
+        showLogLoadingState()
+
+        val request = object : StringRequest(
+            Request.Method.POST,
+            BackendConfig.WORKOUT_URL,
+            Response.Listener<String> { response ->
+                isLogLoading = false
+                try {
+                    val payload = JSONObject(response.trim())
+                    if (payload.optString("response") != "true") {
+                        showLogErrorState(
+                            payload.optString("message", getString(R.string.workout_history_load_failed))
+                        )
+                        return@Listener
+                    }
+
+                    val sessions = decodeOutdoorLogSessions(payload.optJSONArray("sessions") ?: JSONArray())
+                    outdoorLogSessions.clear()
+                    outdoorLogSessions.addAll(sessions.filter { it.workoutType == workoutType })
+                    hasLoadedLog = true
+                    renderLogSessions()
+                } catch (_: JSONException) {
+                    showLogErrorState(getString(R.string.workout_history_load_failed))
+                }
+            },
+            Response.ErrorListener {
+                isLogLoading = false
+                showLogErrorState(getString(R.string.workout_history_load_network_error))
+            }
+        ) {
+            @Throws(AuthFailureError::class)
+            override fun getParams(): Map<String, String> {
+                return hashMapOf(
+                    "phpFunction" to "getWorkoutHistory",
+                    "userId" to userId.toString(),
+                    "limit" to "20"
+                )
+            }
+        }
+
+        Volley.newRequestQueue(this).add(request)
+    }
+
+    private fun showLogLoadingState() {
+        logLoadingText.text = getString(
+            R.string.outdoor_workout_log_loading,
+            getWorkoutTypeLabel().lowercase(Locale.getDefault())
+        )
+        logLoadingText.visibility = View.VISIBLE
+        logEmptyText.visibility = View.GONE
+        logSummaryRow.visibility = View.GONE
+        logChartTitleText.visibility = View.GONE
+        logChartScroll.visibility = View.GONE
+        logLatestTitleText.visibility = View.GONE
+        logChartContainer.removeAllViews()
+        logItemsContainer.removeAllViews()
+    }
+
+    private fun showLogErrorState(message: String) {
+        logLoadingText.visibility = View.GONE
+        logSummaryRow.visibility = View.GONE
+        logChartTitleText.visibility = View.GONE
+        logChartScroll.visibility = View.GONE
+        logLatestTitleText.visibility = View.GONE
+        logChartContainer.removeAllViews()
+        logItemsContainer.removeAllViews()
+        logEmptyText.text = message
+        logEmptyText.visibility = View.VISIBLE
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun renderLogSessions() {
+        logLoadingText.visibility = View.GONE
+        logChartContainer.removeAllViews()
+        logItemsContainer.removeAllViews()
+
+        if (outdoorLogSessions.isEmpty()) {
+            logSummaryRow.visibility = View.GONE
+            logChartTitleText.visibility = View.GONE
+            logChartScroll.visibility = View.GONE
+            logLatestTitleText.visibility = View.GONE
+            logEmptyText.text = getString(
+                R.string.outdoor_workout_log_empty,
+                getWorkoutTypeLabel().lowercase(Locale.getDefault())
+            )
+            logEmptyText.visibility = View.VISIBLE
+            return
+        }
+
+        logEmptyText.visibility = View.GONE
+        logSummaryRow.visibility = View.VISIBLE
+        logChartTitleText.visibility = View.VISIBLE
+        logChartScroll.visibility = View.VISIBLE
+        logLatestTitleText.visibility = View.VISIBLE
+
+        val hasDistanceData = outdoorLogSessions.any { it.distanceMeters > 0.0 }
+        logSessionsSummaryText.text = getString(
+            R.string.outdoor_workout_log_summary_sessions,
+            outdoorLogSessions.size
+        )
+        logBestSummaryText.text = getString(
+            R.string.outdoor_workout_log_summary_best,
+            if (hasDistanceData) {
+                formatDistance(outdoorLogSessions.maxOf { it.distanceMeters })
+            } else {
+                formatDuration(outdoorLogSessions.maxOf { it.durationSeconds })
+            }
+        )
+        logAverageSummaryText.text = getString(
+            R.string.outdoor_workout_log_summary_avg,
+            if (hasDistanceData) {
+                formatDistance(outdoorLogSessions.map { it.distanceMeters }.average())
+            } else {
+                formatDuration(outdoorLogSessions.map { it.durationSeconds }.average().toInt())
+            }
+        )
+
+        renderLogChart(hasDistanceData)
+        renderLogList()
+    }
+
+    private fun renderLogChart(useDistance: Boolean) {
+        val chartDays = buildWeeklyLogChartDays()
+        if (chartDays.isEmpty()) {
+            logChartScroll.visibility = View.GONE
+            return
+        }
+
+        val maxMetric = chartDays.maxOf {
+            if (useDistance) it.totalDistanceMeters else it.totalDurationSeconds.toDouble() / 60.0
+        }
+        val inflater = layoutInflater
+        logChartTitleText.text = getString(R.string.outdoor_workout_log_chart_week_title)
+
+        chartDays.forEachIndexed { index, dayTotal ->
+            val itemView = inflater.inflate(
+                R.layout.item_outdoor_log_chart_bar,
+                logChartContainer,
+                false
+            )
+            val metricValue = if (useDistance) {
+                dayTotal.totalDistanceMeters
+            } else {
+                dayTotal.totalDurationSeconds.toDouble() / 60.0
+            }
+            val metricLabel = if (useDistance) {
+                getString(
+                    R.string.outdoor_workout_log_chart_distance_value,
+                    metricValue / 1000.0
+                )
+            } else {
+                getString(
+                    R.string.outdoor_workout_log_chart_duration_value,
+                    metricValue.toInt()
+                )
+            }
+
+            itemView.findViewById<TextView>(R.id.tvOutdoorLogChartValue).text = metricLabel
+            itemView.findViewById<TextView>(R.id.tvOutdoorLogChartLabel).text =
+                formatChartDayLabel(dayTotal.day)
+            setLogChartBarHeight(
+                itemView.findViewById(R.id.viewOutdoorLogChartBar),
+                metricValue,
+                maxMetric
+            )
+
+            logChartContainer.addView(
+                itemView,
+                LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    if (index < chartDays.lastIndex) {
+                        marginEnd = dpToPx(14)
+                    }
+                }
+            )
+        }
+    }
+
+    private fun buildWeeklyLogChartDays(): List<OutdoorLogDayTotal> {
+        val today = LocalDate.now()
+        val days = (6 downTo 0).map { today.minusDays(it.toLong()) }
+        val totalsByDay = days.associateWith { OutdoorLogDayTotal(it) }.toMutableMap()
+
+        outdoorLogSessions.forEach { session ->
+            val sessionDate = parseSessionDate(session.createdAt) ?: return@forEach
+            val dayTotal = totalsByDay[sessionDate] ?: return@forEach
+            dayTotal.totalDistanceMeters += session.distanceMeters
+            dayTotal.totalDurationSeconds += session.durationSeconds
+        }
+
+        return days.mapNotNull { totalsByDay[it] }
+    }
+
+    private fun renderLogList() {
+        outdoorLogSessions.take(3).forEach { session ->
+            val itemView = layoutInflater.inflate(
+                R.layout.item_outdoor_log_entry,
+                logItemsContainer,
+                false
+            )
+
+            itemView.findViewById<TextView>(R.id.tvOutdoorLogEntryDate).text = session.createdAt
+            itemView.findViewById<TextView>(R.id.tvOutdoorLogEntryPrimary).text =
+                "${getString(R.string.workout_history_duration_value, formatDuration(session.durationSeconds))}  •  " +
+                    "${getString(R.string.workout_history_distance_value, formatDistance(session.distanceMeters))}  •  " +
+                    getString(
+                        R.string.workout_history_speed_value,
+                        formatSpeed(calculateAverageSpeedMetersPerSecond(session))
+                    )
+            itemView.findViewById<TextView>(R.id.tvOutdoorLogEntrySecondary).text =
+                "${getString(R.string.workout_history_calories_value, formatCaloriesValue(session.caloriesBurned))}  •  " +
+                    buildLogStatusText(session)
+
+            logItemsContainer.addView(itemView)
+        }
+    }
+
+    private fun buildLogStatusText(session: WorkoutHistorySession): String {
+        return when {
+            session.destinationReached -> getString(R.string.workout_history_destination_progress_reached)
+            session.destinationLat != null && session.destinationLng != null -> getString(
+                R.string.outdoor_workout_remaining_value,
+                formatDistance(session.remainingDistanceMeters)
+            )
+            else -> getString(R.string.workout_history_destination_not_set)
+        }
+    }
+
+    private fun calculateAverageSpeedMetersPerSecond(session: WorkoutHistorySession): Double {
+        return if (session.durationSeconds > 0 && session.distanceMeters > 0.0) {
+            session.distanceMeters / session.durationSeconds.toDouble()
+        } else {
+            0.0
+        }
+    }
+
+    private fun decodeOutdoorLogSessions(array: JSONArray): List<WorkoutHistorySession> {
+        val sessions = mutableListOf<WorkoutHistorySession>()
+        for (index in 0 until array.length()) {
+            val item = array.optJSONObject(index) ?: continue
+            val routeSummary = decodeRouteSummary(item.optString("routeJson"))
+            sessions.add(
+                WorkoutHistorySession(
+                    id = item.optString("id"),
+                    workoutType = item.optString("workoutType"),
+                    durationSeconds = item.optInt("durationSeconds"),
+                    totalSets = item.optInt("totalSets"),
+                    totalReps = item.optInt("totalReps"),
+                    totalVolume = item.optDouble("totalVolume"),
+                    distanceMeters = item.optDouble("distanceMeters"),
+                    caloriesBurned = item.optDouble("caloriesBurned"),
+                    destinationLat = parseNullableDouble(item, "destinationLat"),
+                    destinationLng = parseNullableDouble(item, "destinationLng"),
+                    remainingDistanceMeters = item.optDouble("remainingDistanceMeters"),
+                    destinationReached = item.optString("destinationReached") == "1",
+                    routePointCount = routeSummary.pointCount,
+                    routeStartLat = routeSummary.firstPoint?.latitude,
+                    routeStartLng = routeSummary.firstPoint?.longitude,
+                    targetDurationSeconds = item.optInt("targetDurationSeconds"),
+                    targetDurationReached = item.optString("targetDurationReached") == "1",
+                    createdAt = item.optString("createdAt"),
+                    setEntries = emptyList()
+                )
+            )
+        }
+        return sessions
+    }
+
+    private fun parseNullableDouble(item: JSONObject, key: String): Double? {
+        if (item.isNull(key)) {
+            return null
+        }
+        return item.optString(key).toDoubleOrNull()
+    }
+
+    private fun decodeRouteSummary(rawJson: String): RouteSummary {
+        if (rawJson.isBlank()) {
+            return RouteSummary()
+        }
+
+        return try {
+            val array = JSONArray(rawJson)
+            val firstPoint = array.optJSONObject(0)?.let { point ->
+                LatLng(point.optDouble("lat"), point.optDouble("lng"))
+            }
+            RouteSummary(
+                pointCount = array.length(),
+                firstPoint = firstPoint
+            )
+        } catch (_: JSONException) {
+            RouteSummary()
+        }
+    }
+
+    private fun parseSessionDate(rawDateTime: String): LocalDate? {
+        return try {
+            LocalDateTime.parse(rawDateTime, HISTORY_FORMATTER).toLocalDate()
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    private fun formatChartDayLabel(day: LocalDate): String {
+        return day.format(WEEKDAY_FORMATTER)
+    }
+
+    private fun setLogChartBarHeight(view: View, metricValue: Double, maxMetric: Double) {
+        val params = view.layoutParams
+        params.height = when {
+            metricValue <= 0.0 || maxMetric <= 0.0 -> dpToPx(8)
+            else -> {
+                val scaledHeight = (metricValue / maxMetric) * dpToPx(76)
+                scaledHeight.toInt().coerceAtLeast(dpToPx(16))
+            }
+        }
+        view.layoutParams = params
+        view.alpha = if (metricValue <= 0.0) 0.2f else 1f
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
     }
 
     private fun setDestination(point: LatLng) {
@@ -834,16 +1304,32 @@ class WalkingMapActivity : AppCompatActivity(), OnMapReadyCallback {
         private const val KEY_IS_SAVING = "is_saving"
         private const val KEY_SECONDS_ELAPSED = "seconds_elapsed"
         private const val KEY_TOTAL_DISTANCE = "total_distance"
+        private const val KEY_CURRENT_SPEED = "current_speed"
         private const val KEY_CALORIES_BURNED = "calories_burned"
         private const val KEY_ROUTE_POINTS = "route_points"
         private const val KEY_DESTINATION_POINT = "destination_point"
         private const val KEY_HAS_ARRIVED_AT_DESTINATION = "has_arrived_at_destination"
         private const val KEY_TARGET_DURATION_SECONDS = "target_duration_seconds"
         private const val KEY_HAS_REACHED_TARGET_DURATION = "has_reached_target_duration"
+        private const val KEY_SELECTED_PANEL = "selected_panel"
+
+        private const val PANEL_DATA = "data"
+        private const val PANEL_LOG = "log"
 
         private const val MIN_TRACKABLE_SEGMENT_METERS = 2.0
         private const val MAX_TRACKABLE_SEGMENT_METERS = 250.0
         private const val MAX_ACCEPTABLE_ACCURACY_METERS = 40f
         private const val DESTINATION_ARRIVAL_THRESHOLD_METERS = 30.0
+
+        private val HISTORY_FORMATTER: DateTimeFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        private val WEEKDAY_FORMATTER: DateTimeFormatter =
+            DateTimeFormatter.ofPattern("EEE", Locale.getDefault())
     }
 }
+
+private data class OutdoorLogDayTotal(
+    val day: LocalDate,
+    var totalDistanceMeters: Double = 0.0,
+    var totalDurationSeconds: Int = 0
+)
