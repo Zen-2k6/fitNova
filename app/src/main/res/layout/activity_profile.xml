@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/auth_dark_background"
     android:fillViewport="true"
-    tools:context=".ProfileActivity">
+    tools:context=".profile.ProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/profile_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -59,21 +59,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="@string/profile_subtitle"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBackProfile"
+                style="@style/Widget.FitNova.Button.NeonSoft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"
                 android:text="@string/profile_cancel_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@color/auth_logo_chip"
-                app:cornerRadius="20dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
@@ -82,7 +79,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -146,7 +143,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -274,7 +271,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -335,14 +332,11 @@
             android:layout_marginEnd="20dp"
             android:minHeight="54dp"
             android:text="@string/profile_save_button"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:backgroundTint="@color/auth_button_blue"
-            app:cornerRadius="27dp" />
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogoutProfile"
+            style="@style/Widget.FitNova.Button.NeonDanger"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -350,10 +344,6 @@
             android:layout_marginEnd="20dp"
             android:minHeight="52dp"
             android:text="@string/fitness_logout"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:backgroundTint="@color/red"
-            app:cornerRadius="26dp" />
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

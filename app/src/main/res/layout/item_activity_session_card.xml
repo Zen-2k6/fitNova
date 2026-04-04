@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/auth_gold_surface"
     app:cardCornerRadius="24dp"
     app:cardElevation="8dp">
 
@@ -80,11 +80,7 @@
                 android:layout_marginTop="14dp"
                 android:minHeight="42dp"
                 android:text="@string/fitness_activity_start"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@color/auth_button_blue"
-                app:cornerRadius="21dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 

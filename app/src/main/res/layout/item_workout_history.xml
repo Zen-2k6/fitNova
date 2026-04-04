@@ -7,7 +7,7 @@
     android:layout_marginStart="20dp"
     android:layout_marginTop="12dp"
     android:layout_marginEnd="20dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/auth_gold_surface"
     app:cardCornerRadius="24dp"
     app:cardElevation="8dp">
 

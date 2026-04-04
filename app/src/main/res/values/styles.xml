@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.FitNova.Button.Neon" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/auth_gold_button_text</item>
+        <item name="android:shadowColor">@color/neon_blue_glow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="backgroundTint">@color/neon_button_fill</item>
+        <item name="strokeColor">@color/neon_blue_glow</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">24dp</item>
+        <item name="rippleColor">@color/neon_blue_glow_soft</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.NeonDanger" parent="Widget.FitNova.Button.Neon">
+        <item name="backgroundTint">@color/neon_button_red_fill</item>
+        <item name="android:textColor">@color/auth_gold_yellow</item>
+        <item name="strokeColor">@color/auth_gold_yellow</item>
+        <item name="rippleColor">@color/neon_red_glow_soft</item>
+        <item name="android:shadowColor">@color/neon_red_glow</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.NeonSoft" parent="Widget.FitNova.Button.Neon">
+        <item name="backgroundTint">@color/auth_logo_chip</item>
+        <item name="strokeColor">@color/neon_blue_glow</item>
+        <item name="rippleColor">@color/neon_blue_glow_soft</item>
+        <item name="android:textColor">@color/auth_gold_yellow</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.NeonGhost" parent="Widget.FitNova.Button.Neon">
+        <item name="backgroundTint">@color/neon_button_ghost_fill</item>
+        <item name="android:textColor">@color/auth_gold_yellow</item>
+        <item name="strokeColor">@color/neon_blue_glow</item>
+        <item name="rippleColor">@color/neon_blue_glow_soft</item>
+        <item name="android:shadowColor">@color/neon_blue_glow_soft</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.NeonOutlineDark" parent="Widget.FitNova.Button.Neon">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">@color/auth_gold_yellow</item>
+        <item name="strokeColor">@color/neon_blue_glow</item>
+        <item name="rippleColor">@color/neon_blue_glow_soft</item>
+        <item name="android:shadowColor">@color/neon_blue_glow_soft</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.AuthGold" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/auth_gold_button_text</item>
+        <item name="backgroundTint">@color/auth_gold_yellow</item>
+        <item name="strokeColor">@color/auth_gold_yellow</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="rippleColor">@color/auth_gold_ripple</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="Widget.FitNova.Button.AuthGoldOutline" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/auth_gold_yellow</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="strokeColor">@color/auth_gold_yellow</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="rippleColor">@color/auth_gold_ripple</item>
+        <item name="elevation">0dp</item>
+    </style>
+</resources>

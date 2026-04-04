@@ -1,15 +1,14 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.auth
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
-import android.util.Log
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.android.volley.AuthFailureError
@@ -19,21 +18,26 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
+import uk.ncc.fitNova.R
+import uk.ncc.fitNova.dashboard.FitnessActivity
+import uk.ncc.fitNova.data.prefs.SessionPrefs
+import uk.ncc.fitNova.data.prefs.SessionSnapshot
+import uk.ncc.fitNova.data.remote.BackendConfig
+import uk.ncc.fitNova.ui.applyBlackSystemBars
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var userName: EditText
     private lateinit var password: EditText
+    private val sessionPrefs by lazy { SessionPrefs(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+        applyBlackSystemBars(this)
         applySystemBarInsets(findViewById(R.id.main))
-
-        if (openDashboardIfSessionExists()) {
-            return
-        }
+        clearSavedSession()
 
         // Initialize UI Elements
         userName = findViewById(R.id.etUsername)
@@ -117,19 +121,17 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-
-                        with(sharedPref.edit()) {
-                            putBoolean("IS_LOGGED_IN", true)
-                            putInt("User_id", userid.toInt())
-                            putString("Full_name", fullName)
-                            putString("Email", email)
-                            putString("Gender", gender)
-                            putInt("Age", age)
-                            putInt("Weight", weight.toInt())
-                            putInt("Height", height.toInt())
-                            apply()
-                        }
+                        sessionPrefs.saveLogin(
+                            SessionSnapshot(
+                                userId = userid.toInt(),
+                                fullName = fullName,
+                                email = email,
+                                gender = gender,
+                                age = age,
+                                weight = weight.toInt(),
+                                height = height.toInt()
+                            )
+                        )
 
                         val intentFitness =
                             Intent(this@MainActivity, FitnessActivity::class.java)
@@ -168,19 +170,7 @@ class MainActivity : AppCompatActivity() {
         Volley.newRequestQueue(this).add(stringRequest)
     }
 
-    private fun openDashboardIfSessionExists(): Boolean {
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val isLoggedIn = sharedPref.getBoolean("IS_LOGGED_IN", false)
-        val userId = sharedPref.getInt("User_id", -1)
-
-        if (!isLoggedIn || userId <= 0) {
-            return false
-        }
-
-        val intentFitness = Intent(this, FitnessActivity::class.java)
-        intentFitness.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intentFitness)
-        finish()
-        return true
+    private fun clearSavedSession() {
+        sessionPrefs.clear()
     }
 }

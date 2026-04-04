@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/auth_dark_background"
     android:fillViewport="true"
-    tools:context=".WorkoutHistoryActivity">
+    tools:context=".workout.history.WorkoutHistoryActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/workout_history_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -59,21 +59,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="@string/workout_history_subtitle"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="13sp" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnBackWorkoutHistory"
+                style="@style/Widget.FitNova.Button.NeonSoft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"
                 android:text="@string/profile_cancel_button"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                app:backgroundTint="@color/auth_logo_chip"
-                app:cornerRadius="20dp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
         <TextView
@@ -84,7 +81,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             android:text="@string/workout_history_loading"
-            android:textColor="#B8C6E6"
+            android:textColor="@color/auth_gold_text_secondary"
             android:textSize="14sp" />
 
         <TextView
@@ -95,7 +92,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="24dp"
             android:text="@string/workout_history_empty"
-            android:textColor="#B8C6E6"
+            android:textColor="@color/auth_gold_text_secondary"
             android:textSize="14sp"
             android:visibility="gone" />
 

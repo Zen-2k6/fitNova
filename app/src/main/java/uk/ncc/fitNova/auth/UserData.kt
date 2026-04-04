@@ -1,4 +1,4 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.auth
 
 data class UserData(
     val fullName :String,

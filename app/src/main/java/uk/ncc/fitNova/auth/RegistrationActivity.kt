@@ -1,4 +1,4 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.auth
 
 import android.os.Bundle
 import android.view.View
@@ -19,6 +19,9 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.slider.Slider
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import uk.ncc.fitNova.R
+import uk.ncc.fitNova.data.remote.BackendConfig
+import uk.ncc.fitNova.ui.applyBlackSystemBars
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -43,6 +46,7 @@ class RegistrationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_registration)
+        applyBlackSystemBars(this)
         applySystemBarInsets(findViewById(R.id.svRegister))
 
         //UI Initialization

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/auth_dark_background"
     android:orientation="vertical"
-    tools:context=".FitnessActivity">
+    tools:context=".dashboard.FitnessActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
-                android:textColor="@color/white"
+                android:textColor="@color/auth_gold_text_primary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="@string/fitness_topbar_label"
-                android:textColor="#B8C6E6"
+                android:textColor="@color/auth_gold_text_secondary"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -65,7 +65,7 @@
             android:contentDescription="@string/fitness_profile_button"
             android:padding="10dp"
             android:src="@drawable/ic_profile"
-            android:tint="@color/white" />
+            android:tint="@color/auth_gold_yellow" />
     </LinearLayout>
 
     <ScrollView
@@ -93,7 +93,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="28dp"
                     app:cardElevation="10dp">
 
@@ -211,7 +211,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="20dp"
                     android:text="@string/fitness_signals_title"
-                    android:textColor="@color/white"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -227,7 +227,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@color/white"
+                        app:cardBackgroundColor="@color/auth_gold_surface"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="8dp">
 
@@ -276,7 +276,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        app:cardBackgroundColor="@color/white"
+                        app:cardBackgroundColor="@color/auth_gold_surface"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="8dp">
 
@@ -320,7 +320,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="8dp">
 
@@ -381,7 +381,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="28dp"
                     app:cardElevation="10dp">
 
@@ -432,7 +432,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="28dp"
                     app:cardElevation="10dp">
 
@@ -468,7 +468,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="24dp"
                     android:text="@string/workout_history_loading"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="14sp" />
 
                 <TextView
@@ -479,7 +479,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="24dp"
                     android:text="@string/workout_history_empty"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="14sp"
                     android:visibility="gone" />
 
@@ -503,7 +503,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="28dp"
                     app:cardElevation="10dp">
 
@@ -539,7 +539,7 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="24dp"
                     android:text="@string/analysis_report_loading"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="14sp" />
 
                 <TextView
@@ -550,19 +550,19 @@
                     android:layout_marginTop="12dp"
                     android:layout_marginEnd="24dp"
                     android:text="@string/analysis_report_empty"
-                    android:textColor="#B8C6E6"
+                    android:textColor="@color/auth_gold_text_secondary"
                     android:textSize="14sp"
                     android:visibility="gone" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardDashboardAnalysisTotals"
+                    android:id="@+id/cardDashboardAnalysisFilters"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="20dp"
                     android:visibility="gone"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="8dp">
 
@@ -575,10 +575,87 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/analysis_report_totals_title"
+                            android:text="@string/analysis_report_filters_title"
                             android:textColor="@color/fitness_text_primary"
                             android:textSize="18sp"
                             android:textStyle="bold" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnDashboardAnalysisActivityRunning"
+                                    style="@style/Widget.FitNova.Button.NeonSoft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:minHeight="42dp"
+                                    android:text="@string/fitness_activity_running" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnDashboardAnalysisActivityWalking"
+                                    style="@style/Widget.FitNova.Button.NeonSoft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:minHeight="42dp"
+                                    android:text="@string/fitness_activity_walking" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnDashboardAnalysisActivityWeight"
+                                    style="@style/Widget.FitNova.Button.NeonSoft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:minHeight="42dp"
+                                    android:text="@string/fitness_activity_weight" />
+
+                                <com.google.android.material.button.MaterialButton
+                                    android:id="@+id/btnDashboardAnalysisActivityCycling"
+                                    style="@style/Widget.FitNova.Button.NeonSoft"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:minHeight="42dp"
+                                    android:text="@string/fitness_activity_cycling" />
+                            </LinearLayout>
+                        </HorizontalScrollView>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardDashboardAnalysisOverview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="20dp"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
+                    app:cardCornerRadius="24dp"
+                    app:cardElevation="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:id="@+id/tvDashboardAnalysisOverviewTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/fitness_text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            tools:text="Running Overview" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -590,107 +667,127 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:background="@color/fitness_primary_soft"
+                                android:orientation="vertical"
+                                android:padding="16dp">
 
                                 <TextView
+                                    android:id="@+id/tvDashboardAnalysisStatOneLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/analysis_report_total_sessions"
                                     android:textColor="@color/fitness_text_secondary"
                                     android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:text="Top Distance" />
 
                                 <TextView
-                                    android:id="@+id/tvDashboardAnalysisTotalSessionsValue"
+                                    android:id="@+id/tvDashboardAnalysisStatOneValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginTop="8dp"
                                     android:textColor="@color/fitness_text_primary"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
-                                    tools:text="12" />
+                                    tools:text="8.4 km" />
                             </LinearLayout>
+
+                            <Space
+                                android:layout_width="12dp"
+                                android:layout_height="1dp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:background="@color/fitness_warm_soft"
+                                android:orientation="vertical"
+                                android:padding="16dp">
 
                                 <TextView
+                                    android:id="@+id/tvDashboardAnalysisStatTwoLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/analysis_report_total_time"
                                     android:textColor="@color/fitness_text_secondary"
                                     android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:text="Longest Time" />
 
                                 <TextView
-                                    android:id="@+id/tvDashboardAnalysisTotalTimeValue"
+                                    android:id="@+id/tvDashboardAnalysisStatTwoValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginTop="8dp"
                                     android:textColor="@color/fitness_text_primary"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
-                                    tools:text="05:42:18" />
+                                    tools:text="01:02:14" />
                             </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="14dp"
+                            android:layout_marginTop="12dp"
                             android:orientation="horizontal">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:background="@color/fitness_warm_soft"
+                                android:orientation="vertical"
+                                android:padding="16dp">
 
                                 <TextView
+                                    android:id="@+id/tvDashboardAnalysisStatThreeLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/analysis_report_total_distance"
                                     android:textColor="@color/fitness_text_secondary"
                                     android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:text="Top Calories" />
 
                                 <TextView
-                                    android:id="@+id/tvDashboardAnalysisDistanceValue"
+                                    android:id="@+id/tvDashboardAnalysisStatThreeValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginTop="8dp"
                                     android:textColor="@color/fitness_text_primary"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
-                                    tools:text="18.4 km" />
+                                    tools:text="640 kcal" />
                             </LinearLayout>
+
+                            <Space
+                                android:layout_width="12dp"
+                                android:layout_height="1dp" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:orientation="vertical">
+                                android:background="@color/fitness_primary_soft"
+                                android:orientation="vertical"
+                                android:padding="16dp">
 
                                 <TextView
+                                    android:id="@+id/tvDashboardAnalysisStatFourLabel"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/analysis_report_total_calories"
                                     android:textColor="@color/fitness_text_secondary"
                                     android:textSize="12sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    tools:text="Top Speed" />
 
                                 <TextView
-                                    android:id="@+id/tvDashboardAnalysisCaloriesValue"
+                                    android:id="@+id/tvDashboardAnalysisStatFourValue"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="6dp"
+                                    android:layout_marginTop="8dp"
                                     android:textColor="@color/fitness_text_primary"
                                     android:textSize="22sp"
                                     android:textStyle="bold"
-                                    tools:text="1350 kcal" />
+                                    tools:text="13.8 km/h" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -704,7 +801,7 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="20dp"
                     android:visibility="gone"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="8dp">
 
@@ -722,108 +819,138 @@
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/tvDashboardAnalysisBestActivityValue"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
-                            android:textColor="@color/fitness_text_primary"
-                            android:textSize="15sp"
-                            tools:text="Top Activity: Running" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvDashboardAnalysisAverageSessionValue"
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDashboardAnalysisPeriodWeek"
+                                style="@style/Widget.FitNova.Button.NeonSoft"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:minHeight="42dp"
+                                android:text="@string/analysis_report_period_week" />
+
+                            <Space
+                                android:layout_width="10dp"
+                                android:layout_height="1dp" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDashboardAnalysisPeriodMonth"
+                                style="@style/Widget.FitNova.Button.NeonSoft"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:minHeight="42dp"
+                                android:text="@string/analysis_report_period_month" />
+                        </LinearLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:textColor="@color/fitness_text_primary"
-                            android:textSize="15sp"
-                            tools:text="Avg Session: 00:28:10" />
+                            android:layout_marginTop="12dp"
+                            android:hint="@string/analysis_report_metric_label"
+                            app:boxBackgroundMode="outline"
+                            app:boxStrokeColor="@color/auth_button_blue"
+                            app:endIconMode="dropdown_menu"
+                            app:hintTextColor="@color/auth_button_blue">
 
-                        <TextView
-                            android:id="@+id/tvDashboardAnalysisLongestSessionValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:textColor="@color/fitness_text_primary"
-                            android:textSize="15sp"
-                            tools:text="Longest: Cycling • 01:14:32" />
-
-                        <TextView
-                            android:id="@+id/tvDashboardAnalysisLast7DaysValue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:textColor="@color/fitness_text_primary"
-                            android:textSize="15sp"
-                            tools:text="Last 7 Days: 4 sessions" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="18dp"
-                            android:text="@string/analysis_report_weekly_trend_title"
-                            android:textColor="@color/fitness_text_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                                android:id="@+id/dropdownDashboardAnalysisMetric"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="none"
+                                android:maxLines="1"
+                                android:textColor="@color/fitness_text_primary"
+                                android:textColorHint="@color/auth_hint"
+                                tools:text="Distance" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
+                            android:layout_marginTop="16dp"
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:background="@color/auth_button_blue" />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDashboardAnalysisPreviousPeriod"
+                                style="@style/Widget.FitNova.Button.NeonSoft"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:minWidth="44dp"
+                                android:minHeight="44dp"
+                                android:padding="0dp"
+                                app:icon="@drawable/ic_chevron_left"
+                                app:iconGravity="textStart"
+                                app:iconPadding="0dp"
+                                app:iconSize="20dp"
+                                app:iconTint="@color/auth_gold_yellow" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <LinearLayout
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="@string/fitness_activity_running"
-                                android:textColor="@color/fitness_text_secondary"
-                                android:textSize="12sp" />
+                                android:layout_marginStart="12dp"
+                                android:layout_marginEnd="12dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_auth_gold_field"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:paddingStart="12dp"
+                                android:paddingTop="10dp"
+                                android:paddingEnd="12dp"
+                                android:paddingBottom="10dp">
 
-                            <Space
-                                android:layout_width="14dp"
-                                android:layout_height="1dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/analysis_report_trends_title"
+                                    android:textColor="@color/fitness_text_secondary"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
 
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:background="@color/fitness_accent" />
+                                <TextView
+                                    android:id="@+id/tvDashboardAnalysisSelectedPeriod"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp"
+                                    android:gravity="center"
+                                    android:textColor="@color/fitness_text_primary"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold"
+                                    tools:text="31 Mar - 06 Apr" />
+                            </LinearLayout>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="@string/fitness_activity_walking"
-                                android:textColor="@color/fitness_text_secondary"
-                                android:textSize="12sp" />
-
-                            <Space
-                                android:layout_width="14dp"
-                                android:layout_height="1dp" />
-
-                            <View
-                                android:layout_width="10dp"
-                                android:layout_height="10dp"
-                                android:background="@color/red_brown" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:text="@string/fitness_activity_cycling"
-                                android:textColor="@color/fitness_text_secondary"
-                                android:textSize="12sp" />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btnDashboardAnalysisNextPeriod"
+                                style="@style/Widget.FitNova.Button.NeonSoft"
+                                android:layout_width="44dp"
+                                android:layout_height="44dp"
+                                android:minWidth="44dp"
+                                android:minHeight="44dp"
+                                android:padding="0dp"
+                                app:icon="@drawable/ic_chevron_right"
+                                app:iconGravity="textStart"
+                                app:iconPadding="0dp"
+                                app:iconSize="20dp"
+                                app:iconTint="@color/auth_gold_yellow" />
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/tvDashboardAnalysisWeeklyTrendEmpty"
+                            android:id="@+id/tvDashboardAnalysisChartTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@color/fitness_text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            tools:text="Running Distance Trend" />
+
+                        <TextView
+                            android:id="@+id/tvDashboardAnalysisTrendEmpty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="12dp"
@@ -832,13 +959,21 @@
                             android:textSize="13sp"
                             android:visibility="gone" />
 
-                        <LinearLayout
-                            android:id="@+id/llDashboardAnalysisWeeklyTrendChart"
+                        <HorizontalScrollView
+                            android:id="@+id/scrollDashboardAnalysisTrendChart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="14dp"
-                            android:gravity="bottom"
-                            android:orientation="horizontal" />
+                            android:fillViewport="true"
+                            android:scrollbars="none">
+
+                            <LinearLayout
+                                android:id="@+id/llDashboardAnalysisTrendChart"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:orientation="horizontal" />
+                        </HorizontalScrollView>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -850,7 +985,7 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="20dp"
                     android:visibility="gone"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="8dp">
 
@@ -905,7 +1040,7 @@
                     android:layout_marginTop="14dp"
                     android:layout_marginEnd="20dp"
                     android:visibility="gone"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/auth_gold_surface"
                     app:cardCornerRadius="24dp"
                     app:cardElevation="8dp">
 
@@ -945,7 +1080,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="12dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/auth_gold_surface"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp">
 
@@ -972,21 +1107,31 @@
                 android:orientation="vertical"
                 android:paddingVertical="6dp">
 
+                <FrameLayout
+                    android:id="@+id/bgDashboardHomeIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_nav_icon_selected">
+
+                    <ImageView
+                        android:id="@+id/ivDashboardHome"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/dashboard_nav_home"
+                        android:src="@android:drawable/ic_menu_view"
+                        android:tint="@color/auth_gold_button_text" />
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/tvDashboardHome"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="@string/dashboard_nav_home"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_button_blue"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
-                <View
-                    android:id="@+id/indicatorDashboardHome"
-                    android:layout_width="22dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/auth_button_blue" />
             </LinearLayout>
 
             <Space
@@ -1005,21 +1150,31 @@
                 android:orientation="vertical"
                 android:paddingVertical="6dp">
 
+                <FrameLayout
+                    android:id="@+id/bgDashboardActivitiesIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_nav_icon_unselected">
+
+                    <ImageView
+                        android:id="@+id/ivDashboardActivities"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/dashboard_nav_activities"
+                        android:src="@android:drawable/ic_menu_sort_by_size"
+                        android:tint="@color/auth_hint" />
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/tvDashboardActivities"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="@string/dashboard_nav_activities"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_hint"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
-                <View
-                    android:id="@+id/indicatorDashboardActivities"
-                    android:layout_width="22dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/auth_button_blue" />
             </LinearLayout>
 
             <Space
@@ -1038,21 +1193,31 @@
                 android:orientation="vertical"
                 android:paddingVertical="6dp">
 
+                <FrameLayout
+                    android:id="@+id/bgDashboardHistoryIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_nav_icon_unselected">
+
+                    <ImageView
+                        android:id="@+id/ivDashboardHistory"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/dashboard_nav_history"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        android:tint="@color/auth_hint" />
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/tvDashboardHistory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="@string/dashboard_nav_history"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_hint"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
-                <View
-                    android:id="@+id/indicatorDashboardHistory"
-                    android:layout_width="22dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/auth_button_blue" />
             </LinearLayout>
 
             <Space
@@ -1071,21 +1236,31 @@
                 android:orientation="vertical"
                 android:paddingVertical="6dp">
 
+                <FrameLayout
+                    android:id="@+id/bgDashboardReportIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_nav_icon_unselected">
+
+                    <ImageView
+                        android:id="@+id/ivDashboardReport"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/dashboard_nav_report"
+                        android:src="@android:drawable/ic_menu_agenda"
+                        android:tint="@color/auth_hint" />
+                </FrameLayout>
+
                 <TextView
                     android:id="@+id/tvDashboardReport"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
                     android:text="@string/dashboard_nav_report"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_hint"
                     android:textSize="13sp"
                     android:textStyle="bold" />
-
-                <View
-                    android:id="@+id/indicatorDashboardReport"
-                    android:layout_width="22dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/auth_button_blue" />
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

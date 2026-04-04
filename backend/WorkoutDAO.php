@@ -11,10 +11,10 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 
 require_once "config.php";
 
-if (!ensureWorkoutSessionsTable($connection)) {
+if (!validateWorkoutStorage($connection, $schemaMessage)) {
     echo json_encode([
         "response" => "false",
-        "message" => "Unable to initialize workout storage"
+        "message" => $schemaMessage
     ]);
     exit;
 }
@@ -33,6 +33,12 @@ switch ($_POST["phpFunction"]) {
         break;
     case "getWorkoutHistory":
         getWorkoutHistory($connection);
+        break;
+    case "saveMonthlyGoal":
+        saveMonthlyGoal($connection);
+        break;
+    case "getMonthlyGoal":
+        getMonthlyGoal($connection);
         break;
     default:
         echo json_encode([
@@ -59,6 +65,9 @@ function saveWorkoutSession($connection) {
     $destinationReached = intval($_POST["destinationReached"] ?? 0);
     $targetDurationSeconds = intval($_POST["targetDurationSeconds"] ?? 0);
     $targetDurationReached = intval($_POST["targetDurationReached"] ?? 0);
+    $routeName = trim($_POST["routeName"] ?? "");
+    $distanceGoalMeters = floatval($_POST["distanceGoalMeters"] ?? 0);
+    $caloriesGoal = floatval($_POST["caloriesGoal"] ?? 0);
     $routeJson = trim($_POST["routeJson"] ?? "[]");
     $setLogJson = trim($_POST["setLogJson"] ?? "[]");
 
@@ -137,14 +146,17 @@ function saveWorkoutSession($connection) {
         destination_reached,
         target_duration_seconds,
         target_duration_reached,
+        route_name,
+        distance_goal_meters,
+        calories_goal,
         route_json,
         set_log_json,
         created_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), ?, ?, ?, ?, ?, ?, NOW())";
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULLIF(?, ''), NULLIF(?, ''), ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
     $stmt = $connection->prepare($insertSql);
     $stmt->bind_param(
-        "isiiidddssdiiiss",
+        "isiiidddssdiiisddss",
         $userId,
         $workoutType,
         $durationSeconds,
@@ -159,6 +171,9 @@ function saveWorkoutSession($connection) {
         $destinationReached,
         $targetDurationSeconds,
         $targetDurationReached,
+        $routeName,
+        $distanceGoalMeters,
+        $caloriesGoal,
         $routeJson,
         $setLogJson
     );
@@ -181,7 +196,7 @@ function saveWorkoutSession($connection) {
 function getWorkoutHistory($connection) {
     $userId = intval($_POST["userId"] ?? 0);
     $limit = intval($_POST["limit"] ?? 20);
-    $limit = max(1, min($limit, 50));
+    $limit = max(1, min($limit, 250));
 
     if ($userId <= 0) {
         echo json_encode([
@@ -215,6 +230,9 @@ function getWorkoutHistory($connection) {
             destination_reached,
             target_duration_seconds,
             target_duration_reached,
+            route_name,
+            distance_goal_meters,
+            calories_goal,
             route_json,
             set_log_json,
             DATE_FORMAT(created_at, '%Y-%m-%d %H:%i:%s') AS created_at
@@ -244,6 +262,9 @@ function getWorkoutHistory($connection) {
             "destinationReached" => (string)$row["destination_reached"],
             "targetDurationSeconds" => (string)$row["target_duration_seconds"],
             "targetDurationReached" => (string)$row["target_duration_reached"],
+            "routeName" => $row["route_name"] ?? "",
+            "distanceGoalMeters" => (string)$row["distance_goal_meters"],
+            "caloriesGoal" => (string)$row["calories_goal"],
             "routeJson" => $row["route_json"],
             "setLogJson" => $row["set_log_json"],
             "createdAt" => $row["created_at"]
@@ -258,99 +279,195 @@ function getWorkoutHistory($connection) {
     $stmt->close();
 }
 
-function ensureWorkoutSessionsTable($connection) {
-    $sql = "CREATE TABLE IF NOT EXISTS workout_sessions (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL,
-        workout_type VARCHAR(80) NOT NULL,
-        duration_seconds INT NOT NULL DEFAULT 0,
-        total_sets INT NOT NULL DEFAULT 0,
-        total_reps INT NOT NULL DEFAULT 0,
-        total_volume DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        distance_meters DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        calories_burned DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        destination_lat DECIMAL(11,8) NULL DEFAULT NULL,
-        destination_lng DECIMAL(11,8) NULL DEFAULT NULL,
-        remaining_distance_meters DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-        destination_reached TINYINT(1) NOT NULL DEFAULT 0,
-        target_duration_seconds INT NOT NULL DEFAULT 0,
-        target_duration_reached TINYINT(1) NOT NULL DEFAULT 0,
-        route_json LONGTEXT NOT NULL,
-        set_log_json LONGTEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        INDEX idx_workout_sessions_user_id (user_id),
-        INDEX idx_workout_sessions_type (workout_type)
-    )";
+function saveMonthlyGoal($connection) {
+    $userId = intval($_POST["userId"] ?? 0);
+    $workoutType = trim($_POST["workoutType"] ?? "");
+    $goalMonth = trim($_POST["goalMonth"] ?? "");
+    $distanceGoalKm = floatval($_POST["distanceGoalKm"] ?? 0);
+    $caloriesGoalKcal = floatval($_POST["caloriesGoalKcal"] ?? 0);
 
-    if ($connection->query($sql) !== true) {
-        return false;
+    if ($userId <= 0 || $workoutType === "" || !preg_match('/^\d{4}-\d{2}$/', $goalMonth)) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Invalid monthly goal data"
+        ]);
+        return;
     }
 
-    return ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "distance_meters",
-        "DECIMAL(10,2) NOT NULL DEFAULT 0.00"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "calories_burned",
-        "DECIMAL(10,2) NOT NULL DEFAULT 0.00"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "destination_lat",
-        "DECIMAL(11,8) NULL DEFAULT NULL"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "destination_lng",
-        "DECIMAL(11,8) NULL DEFAULT NULL"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "remaining_distance_meters",
-        "DECIMAL(10,2) NOT NULL DEFAULT 0.00"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "destination_reached",
-        "TINYINT(1) NOT NULL DEFAULT 0"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "target_duration_seconds",
-        "INT NOT NULL DEFAULT 0"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "target_duration_reached",
-        "TINYINT(1) NOT NULL DEFAULT 0"
-    ) && ensureColumnExists(
-        $connection,
-        "workout_sessions",
-        "route_json",
-        "LONGTEXT NULL"
+    if ($distanceGoalKm <= 0 && $caloriesGoalKcal <= 0) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Enter at least one monthly goal"
+        ]);
+        return;
+    }
+
+    if (!userExists($connection, $userId)) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "User not found"
+        ]);
+        return;
+    }
+
+    $sql = "INSERT INTO monthly_fitness_goals (
+        user_id,
+        workout_type,
+        goal_month,
+        distance_goal_km,
+        calories_goal_kcal,
+        created_at,
+        updated_at
+    ) VALUES (?, ?, ?, ?, ?, NOW(), NOW())
+    ON DUPLICATE KEY UPDATE
+        distance_goal_km = VALUES(distance_goal_km),
+        calories_goal_kcal = VALUES(calories_goal_kcal),
+        updated_at = NOW()";
+
+    $stmt = $connection->prepare($sql);
+    if (!$stmt) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Failed to prepare monthly goal save"
+        ]);
+        return;
+    }
+
+    $stmt->bind_param(
+        "issdd",
+        $userId,
+        $workoutType,
+        $goalMonth,
+        $distanceGoalKm,
+        $caloriesGoalKcal
     );
+
+    if ($stmt->execute()) {
+        echo json_encode([
+            "response" => "true",
+            "message" => "Monthly goal saved"
+        ]);
+    } else {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Failed to save monthly goal"
+        ]);
+    }
+
+    $stmt->close();
 }
 
-function ensureColumnExists($connection, $table, $column, $definition) {
-    $tableName = $connection->real_escape_string($table);
-    $columnName = $connection->real_escape_string($column);
-    $result = $connection->query("SHOW COLUMNS FROM `$tableName` LIKE '$columnName'");
+function getMonthlyGoal($connection) {
+    $userId = intval($_POST["userId"] ?? 0);
+    $workoutType = trim($_POST["workoutType"] ?? "");
+    $goalMonth = trim($_POST["goalMonth"] ?? "");
 
-    if ($result && $result->num_rows > 0) {
-        $result->free();
-        return true;
+    if ($userId <= 0 || $workoutType === "" || !preg_match('/^\d{4}-\d{2}$/', $goalMonth)) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Invalid monthly goal request"
+        ]);
+        return;
     }
 
-    if ($result) {
-        $result->free();
+    if (!userExists($connection, $userId)) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "User not found"
+        ]);
+        return;
     }
 
-    return $connection->query(
-        "ALTER TABLE `$tableName` ADD COLUMN `$columnName` $definition"
-    ) === true;
+    $stmt = $connection->prepare(
+        "SELECT
+            distance_goal_km,
+            calories_goal_kcal
+         FROM monthly_fitness_goals
+         WHERE user_id = ? AND workout_type = ? AND goal_month = ?
+         LIMIT 1"
+    );
+    if (!$stmt) {
+        echo json_encode([
+            "response" => "false",
+            "message" => "Failed to prepare monthly goal load"
+        ]);
+        return;
+    }
+
+    $stmt->bind_param("iss", $userId, $workoutType, $goalMonth);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+
+    echo json_encode([
+        "response" => "true",
+        "distanceGoalKm" => $row ? (string)$row["distance_goal_km"] : "0",
+        "caloriesGoalKcal" => $row ? (string)$row["calories_goal_kcal"] : "0"
+    ]);
+
+    $stmt->close();
+}
+
+function validateWorkoutStorage($connection, &$message) {
+    $requiredSchema = [
+        "workout_sessions" => [
+            "id",
+            "user_id",
+            "workout_type",
+            "duration_seconds",
+            "total_sets",
+            "total_reps",
+            "total_volume",
+            "distance_meters",
+            "calories_burned",
+            "destination_lat",
+            "destination_lng",
+            "remaining_distance_meters",
+            "destination_reached",
+            "target_duration_seconds",
+            "target_duration_reached",
+            "route_name",
+            "distance_goal_meters",
+            "calories_goal",
+            "route_json",
+            "set_log_json",
+            "created_at"
+        ],
+        "monthly_fitness_goals" => [
+            "id",
+            "user_id",
+            "workout_type",
+            "goal_month",
+            "distance_goal_km",
+            "calories_goal_kcal",
+            "created_at",
+            "updated_at"
+        ]
+    ];
+
+    foreach ($requiredSchema as $tableName => $requiredColumns) {
+        $result = $connection->query("SHOW COLUMNS FROM `$tableName`");
+        if (!$result) {
+            $message = "Missing database table `$tableName`. Create the schema manually from README.md.";
+            return false;
+        }
+
+        $existingColumns = [];
+        while ($row = $result->fetch_assoc()) {
+            $existingColumns[] = $row["Field"];
+        }
+        $result->free();
+
+        foreach ($requiredColumns as $columnName) {
+            if (!in_array($columnName, $existingColumns, true)) {
+                $message = "Missing column `$tableName.$columnName`. Update the schema manually from README.md.";
+                return false;
+            }
+        }
+    }
+
+    $message = "";
+    return true;
 }
 
 function isValidWorkoutLog($rawJson) {
