@@ -1,6 +1,5 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.workout.strength
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -26,6 +25,12 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import uk.ncc.fitNova.R
+import uk.ncc.fitNova.data.prefs.SessionPrefs
+import uk.ncc.fitNova.data.remote.BackendConfig
+import uk.ncc.fitNova.ui.applyBlackSystemBars
+import uk.ncc.fitNova.workout.WeightLiftingSetEntry
+import uk.ncc.fitNova.workout.WorkoutJsonParser
 import java.util.Locale
 
 class WeightLiftingActivity : AppCompatActivity() {
@@ -55,6 +60,7 @@ class WeightLiftingActivity : AppCompatActivity() {
     private var totalVolume = 0.0
     private var isSaving = false
     private val setEntries = mutableListOf<WeightLiftingSetEntry>()
+    private val sessionPrefs by lazy { SessionPrefs(this) }
 
     private val sessionHandler = Handler(Looper.getMainLooper())
     private val restHandler = Handler(Looper.getMainLooper())
@@ -94,6 +100,7 @@ class WeightLiftingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_weight_lifting)
+        applyBlackSystemBars(this)
         applySystemBarInsets(findViewById(R.id.main))
 
         bindViews()
@@ -202,11 +209,22 @@ class WeightLiftingActivity : AppCompatActivity() {
             sessionSeconds > 0 -> R.string.weight_lifting_resume_session
             else -> R.string.weight_lifting_start_session
         }
-        val colorRes = if (isSessionRunning) R.color.red else R.color.auth_button_blue
+        val fillColorRes = if (isSessionRunning) R.color.neon_button_red_fill else R.color.neon_button_fill
+        val strokeColorRes = if (isSessionRunning) R.color.neon_red_glow else R.color.neon_blue_glow
 
         sessionToggleButton.text = getString(labelRes)
+        sessionToggleButton.setTextColor(ContextCompat.getColor(this, R.color.white))
         sessionToggleButton.backgroundTintList =
-            ColorStateList.valueOf(ContextCompat.getColor(this, colorRes))
+            ColorStateList.valueOf(ContextCompat.getColor(this, fillColorRes))
+        sessionToggleButton.strokeColor =
+            ColorStateList.valueOf(ContextCompat.getColor(this, strokeColorRes))
+        sessionToggleButton.rippleColor =
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this,
+                    if (isSessionRunning) R.color.neon_red_glow_soft else R.color.neon_blue_glow_soft
+                )
+            )
     }
 
     private fun addSet() {
@@ -372,8 +390,7 @@ class WeightLiftingActivity : AppCompatActivity() {
             return
         }
 
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val userId = sharedPref.getInt("User_id", -1)
+        val userId = sessionPrefs.getUserId()
         if (userId <= 0) {
             Toast.makeText(this, R.string.weight_lifting_save_user_missing, Toast.LENGTH_SHORT).show()
             return
@@ -523,24 +540,8 @@ class WeightLiftingActivity : AppCompatActivity() {
     }
 
     private fun decodeSetEntries(rawJson: String): List<WeightLiftingSetEntry> {
-        if (rawJson.isBlank()) {
-            return emptyList()
-        }
-
         return try {
-            val jsonArray = JSONArray(rawJson)
-            buildList {
-                for (index in 0 until jsonArray.length()) {
-                    val item = jsonArray.getJSONObject(index)
-                    add(
-                        WeightLiftingSetEntry(
-                            exercise = item.optString("exercise"),
-                            weightKg = item.optDouble("weightKg"),
-                            reps = item.optInt("reps")
-                        )
-                    )
-                }
-            }
+            WorkoutJsonParser.decodeSetEntries(rawJson)
         } catch (exception: JSONException) {
             Log.e("WeightLiftingState", "Failed to decode state: ${exception.message}")
             emptyList()
@@ -568,9 +569,3 @@ class WeightLiftingActivity : AppCompatActivity() {
         private const val KEY_REPS_VALUE = "reps_value"
     }
 }
-
-data class WeightLiftingSetEntry(
-    val exercise: String,
-    val weightKg: Double,
-    val reps: Int
-)

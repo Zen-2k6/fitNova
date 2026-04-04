@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/auth_dark_background"
     android:fillViewport="true"
-    tools:context=".WeightLiftingActivity">
+    tools:context=".workout.strength.WeightLiftingActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fitness_dashboard_label"
-                android:textColor="#B8C6E6"
+                android:textColor="@color/auth_gold_text_secondary"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="@string/weight_lifting_title"
-                android:textColor="@color/white"
+                android:textColor="@color/auth_gold_text_primary"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginTop="8dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/weight_lifting_subtitle"
-                android:textColor="#B8C6E6"
+                android:textColor="@color/auth_gold_text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -56,7 +56,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -101,16 +101,13 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnToggleSession"
+                        style="@style/Widget.FitNova.Button.Neon"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:minHeight="52dp"
                         android:text="@string/weight_lifting_start_session"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/auth_button_blue"
-                        app:cornerRadius="26dp" />
+                        android:textStyle="bold" />
 
                     <Space
                         android:layout_width="12dp"
@@ -118,16 +115,13 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnFinishSession"
+                        style="@style/Widget.FitNova.Button.NeonDanger"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:minHeight="52dp"
                         android:text="@string/weight_lifting_finish_session"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/red"
-                        app:cornerRadius="26dp" />
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -206,7 +200,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white"
+                android:background="@color/auth_gold_surface"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -236,7 +230,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -321,16 +315,13 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddSet"
+                    style="@style/Widget.FitNova.Button.Neon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="22dp"
                     android:minHeight="52dp"
                     android:text="@string/weight_lifting_add_set"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/auth_button_blue"
-                    app:cornerRadius="26dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -340,7 +331,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="18dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 
@@ -385,16 +376,13 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRest60"
+                        style="@style/Widget.FitNova.Button.NeonSoft"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:minHeight="48dp"
                         android:text="@string/weight_lifting_rest_60"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/auth_button_blue"
-                        app:cornerRadius="24dp" />
+                        android:textStyle="bold" />
 
                     <Space
                         android:layout_width="12dp"
@@ -402,30 +390,24 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnRest90"
+                        style="@style/Widget.FitNova.Button.NeonDanger"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:minHeight="48dp"
                         android:text="@string/weight_lifting_rest_90"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        app:backgroundTint="@color/fitness_accent"
-                        app:cornerRadius="24dp" />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnResetRest"
+                    style="@style/Widget.FitNova.Button.NeonGhost"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:minHeight="48dp"
                     android:text="@string/weight_lifting_reset_rest"
-                    android:textAllCaps="false"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/fitness_primary_soft"
-                    app:cornerRadius="24dp" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -436,7 +418,7 @@
             android:layout_marginTop="18dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="8dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/auth_gold_surface"
             app:cardCornerRadius="28dp"
             app:cardElevation="10dp">
 

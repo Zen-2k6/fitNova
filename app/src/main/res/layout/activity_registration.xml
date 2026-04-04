@@ -5,173 +5,176 @@
     android:id="@+id/svRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/auth_dark_background"
+    android:background="@drawable/bg_auth_gold_screen"
     android:fillViewport="true"
-    tools:context=".RegistrationActivity">
+    tools:context=".auth.RegistrationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="28dp">
+        android:paddingStart="22dp"
+        android:paddingTop="28dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textColor="@color/auth_gold_yellow"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/auth_topbar_register"
+            android:textColor="@color/auth_gold_text_secondary"
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
-            android:paddingTop="18dp"
-            android:paddingEnd="24dp"
-            android:paddingBottom="18dp">
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_auth_gold_card"
+            android:orientation="vertical"
+            android:padding="22dp">
 
-            <FrameLayout
-                android:layout_width="52dp"
-                android:layout_height="52dp"
-                android:background="@color/auth_logo_chip">
-
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/fitness_logo" />
-            </FrameLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:orientation="vertical">
+                android:text="@string/auth_register_title_simple"
+                android:textColor="@color/auth_gold_text_primary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/app_name"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/auth_field_full_name"
+                android:textColor="@color/auth_gold_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/auth_topbar_register"
-                    android:textColor="#B8C6E6"
-                    android:textSize="13sp" />
-            </LinearLayout>
-        </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tieFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_auth_gold_field"
+                android:hint="@string/auth_field_full_name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/auth_gold_text_primary"
+                android:textColorHint="@color/auth_gold_text_secondary"
+                tools:text="John Stem" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/email"
+                android:textColor="@color/auth_gold_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tieEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_auth_gold_field"
+                android:hint="@string/email_hint"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/auth_gold_text_primary"
+                android:textColorHint="@color/auth_gold_text_secondary"
+                tools:text="john@email.com" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/Password"
+                android:textColor="@color/auth_gold_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiePassword1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_auth_gold_field"
+                android:hint="@string/Password_hint"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/auth_gold_text_primary"
+                android:textColorHint="@color/auth_gold_text_secondary"
+                tools:text="******" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/Re_Password"
+                android:textColor="@color/auth_gold_text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiePassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_auth_gold_field"
+                android:hint="@string/Re_Password"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingStart="18dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/auth_gold_text_primary"
+                android:textColorHint="@color/auth_gold_text_secondary"
+                tools:text="******" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/bg_auth_gold_section"
                 android:orientation="vertical"
-                android:paddingStart="24dp"
-                android:paddingTop="28dp"
-                android:paddingEnd="24dp"
-                android:paddingBottom="28dp">
+                android:padding="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/auth_register_title_simple"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/auth_register_simple_subtitle"
-                    android:textColor="@color/auth_hint"
-                    android:textSize="14sp" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieFullName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_auth_input_line"
-                    android:hint="@string/auth_field_full_name"
-                    android:inputType="textPersonName"
-                    android:maxLines="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="14dp"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textColorHint="@color/auth_hint"
-                    tools:text="John Stem" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/bg_auth_input_line"
-                    android:hint="@string/email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="14dp"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textColorHint="@color/auth_hint"
-                    tools:text="joh@email.com" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tiePassword1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/bg_auth_input_line"
-                    android:hint="@string/Password"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="14dp"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textColorHint="@color/auth_hint"
-                    tools:text="******" />
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tiePassword2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/bg_auth_input_line"
-                    android:hint="@string/Re_Password"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="14dp"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textColorHint="@color/auth_hint"
-                    tools:text="******" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:text="@string/Gender"
-                    android:textColor="@color/fitness_text_primary"
-                    android:textSize="14sp"
+                    android:textColor="@color/auth_gold_text_primary"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <RadioGroup
                     android:id="@+id/rgGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -179,23 +182,44 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/auth_gender_male" />
+                        android:buttonTint="@color/auth_gold_yellow"
+                        android:text="@string/auth_gender_male"
+                        android:textColor="@color/auth_gold_text_primary" />
 
                     <RadioButton
                         android:id="@+id/rbFemale"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/auth_gender_female" />
+                        android:buttonTint="@color/auth_gold_yellow"
+                        android:text="@string/auth_gender_female"
+                        android:textColor="@color/auth_gold_text_primary" />
                 </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_auth_gold_section"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auth_register_body_section"
+                    android:textColor="@color/auth_gold_text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sldValAge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="14dp"
                     android:text="Age: 30"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textStyle="bold" />
 
                 <com.google.android.material.slider.Slider
@@ -207,8 +231,11 @@
                     android:value="30"
                     android:valueFrom="10"
                     android:valueTo="100"
-                    app:thumbColor="@color/auth_button_blue"
-                    app:trackColorActive="@color/auth_button_blue" />
+                    app:haloColor="@color/auth_gold_ripple"
+                    app:thumbColor="@color/auth_gold_yellow"
+                    app:tickVisible="false"
+                    app:trackColorActive="@color/auth_gold_yellow"
+                    app:trackColorInactive="@color/auth_gold_stroke" />
 
                 <TextView
                     android:id="@+id/sldValWeight"
@@ -216,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Weight(kg): 70"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textStyle="bold" />
 
                 <com.google.android.material.slider.Slider
@@ -228,8 +255,11 @@
                     android:value="70"
                     android:valueFrom="30"
                     android:valueTo="200"
-                    app:thumbColor="@color/auth_button_blue"
-                    app:trackColorActive="@color/auth_button_blue" />
+                    app:haloColor="@color/auth_gold_ripple"
+                    app:thumbColor="@color/auth_gold_yellow"
+                    app:tickVisible="false"
+                    app:trackColorActive="@color/auth_gold_yellow"
+                    app:trackColorInactive="@color/auth_gold_stroke" />
 
                 <TextView
                     android:id="@+id/sldValHeight"
@@ -237,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:text="Height(cm): 100"
-                    android:textColor="@color/fitness_text_primary"
+                    android:textColor="@color/auth_gold_text_primary"
                     android:textStyle="bold" />
 
                 <com.google.android.material.slider.Slider
@@ -249,22 +279,21 @@
                     android:value="100"
                     android:valueFrom="50"
                     android:valueTo="300"
-                    app:thumbColor="@color/auth_button_blue"
-                    app:trackColorActive="@color/auth_button_blue" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnRegister"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:minHeight="52dp"
-                    android:text="@string/auth_sign_up_reference"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/auth_button_blue"
-                    app:cornerRadius="26dp" />
+                    app:haloColor="@color/auth_gold_ripple"
+                    app:thumbColor="@color/auth_gold_yellow"
+                    app:tickVisible="false"
+                    app:trackColorActive="@color/auth_gold_yellow"
+                    app:trackColorInactive="@color/auth_gold_stroke" />
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRegister"
+                style="@style/Widget.FitNova.Button.AuthGold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:minHeight="54dp"
+                android:text="@string/auth_register_button" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>

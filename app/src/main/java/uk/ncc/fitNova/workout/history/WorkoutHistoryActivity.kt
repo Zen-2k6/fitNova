@@ -1,6 +1,5 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.workout.history
 
-import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.gms.maps.model.LatLng
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -23,6 +21,12 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
+import uk.ncc.fitNova.R
+import uk.ncc.fitNova.data.prefs.SessionPrefs
+import uk.ncc.fitNova.data.remote.BackendConfig
+import uk.ncc.fitNova.ui.applyBlackSystemBars
+import uk.ncc.fitNova.workout.WorkoutHistorySession
+import uk.ncc.fitNova.workout.WorkoutJsonParser
 import java.util.Locale
 
 class WorkoutHistoryActivity : AppCompatActivity() {
@@ -30,11 +34,13 @@ class WorkoutHistoryActivity : AppCompatActivity() {
     private lateinit var loadingText: TextView
     private lateinit var emptyText: TextView
     private lateinit var historyContainer: LinearLayout
+    private val sessionPrefs by lazy { SessionPrefs(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_workout_history)
+        applyBlackSystemBars(this)
         applySystemBarInsets(findViewById(R.id.main))
 
         bindViews()
@@ -74,8 +80,7 @@ class WorkoutHistoryActivity : AppCompatActivity() {
     }
 
     private fun loadWorkoutHistory() {
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        val userId = sharedPref.getInt("User_id", -1)
+        val userId = sessionPrefs.getUserId()
         if (userId <= 0) {
             Toast.makeText(this, R.string.profile_session_missing, Toast.LENGTH_SHORT).show()
             finish()
@@ -127,60 +132,7 @@ class WorkoutHistoryActivity : AppCompatActivity() {
     }
 
     private fun decodeSessions(array: JSONArray): List<WorkoutHistorySession> {
-        val sessions = mutableListOf<WorkoutHistorySession>()
-        for (index in 0 until array.length()) {
-            val item = array.optJSONObject(index) ?: continue
-            val setEntries = decodeSetEntries(item.optString("setLogJson"))
-            val routeSummary = decodeRouteSummary(item.optString("routeJson"))
-            sessions.add(
-                WorkoutHistorySession(
-                    id = item.optString("id"),
-                    workoutType = item.optString("workoutType"),
-                    durationSeconds = item.optInt("durationSeconds"),
-                    totalSets = item.optInt("totalSets"),
-                    totalReps = item.optInt("totalReps"),
-                    totalVolume = item.optDouble("totalVolume"),
-                    distanceMeters = item.optDouble("distanceMeters"),
-                    caloriesBurned = item.optDouble("caloriesBurned"),
-                    destinationLat = parseNullableDouble(item, "destinationLat"),
-                    destinationLng = parseNullableDouble(item, "destinationLng"),
-                    remainingDistanceMeters = item.optDouble("remainingDistanceMeters"),
-                    destinationReached = item.optString("destinationReached") == "1",
-                    routePointCount = routeSummary.pointCount,
-                    routeStartLat = routeSummary.firstPoint?.latitude,
-                    routeStartLng = routeSummary.firstPoint?.longitude,
-                    targetDurationSeconds = item.optInt("targetDurationSeconds"),
-                    targetDurationReached = item.optString("targetDurationReached") == "1",
-                    createdAt = item.optString("createdAt"),
-                    setEntries = setEntries
-                )
-            )
-        }
-        return sessions
-    }
-
-    private fun decodeSetEntries(rawJson: String): List<WeightLiftingSetEntry> {
-        if (rawJson.isBlank()) {
-            return emptyList()
-        }
-
-        return try {
-            val jsonArray = JSONArray(rawJson)
-            buildList {
-                for (index in 0 until jsonArray.length()) {
-                    val item = jsonArray.getJSONObject(index)
-                    add(
-                        WeightLiftingSetEntry(
-                            exercise = item.optString("exercise"),
-                            weightKg = item.optDouble("weightKg"),
-                            reps = item.optInt("reps")
-                        )
-                    )
-                }
-            }
-        } catch (_: JSONException) {
-            emptyList()
-        }
+        return WorkoutJsonParser.decodeSessions(array)
     }
 
     private fun renderHistory(sessions: List<WorkoutHistorySession>) {
@@ -359,36 +311,6 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         }
     }
 
-    private fun parseNullableDouble(item: JSONObject, key: String): Double? {
-        if (item.isNull(key)) {
-            return null
-        }
-
-        val rawValue = item.optString(key)
-        return rawValue.toDoubleOrNull()
-    }
-
-    private fun decodeRouteSummary(rawJson: String): RouteSummary {
-        if (rawJson.isBlank()) {
-            return RouteSummary()
-        }
-
-        return try {
-            val array = JSONArray(rawJson)
-            val firstPoint = array.optJSONObject(0)?.let { point ->
-                val lat = point.optDouble("lat")
-                val lng = point.optDouble("lng")
-                LatLng(lat, lng)
-            }
-            RouteSummary(
-                pointCount = array.length(),
-                firstPoint = firstPoint
-            )
-        } catch (_: JSONException) {
-            RouteSummary()
-        }
-    }
-
     private fun renderOutdoorProgress(
         session: WorkoutHistorySession,
         statusText: TextView,
@@ -448,30 +370,3 @@ class WorkoutHistoryActivity : AppCompatActivity() {
         return workoutType == "walking" || workoutType == "running" || workoutType == "cycling"
     }
 }
-
-data class WorkoutHistorySession(
-    val id: String,
-    val workoutType: String,
-    val durationSeconds: Int,
-    val totalSets: Int,
-    val totalReps: Int,
-    val totalVolume: Double,
-    val distanceMeters: Double,
-    val caloriesBurned: Double,
-    val destinationLat: Double? = null,
-    val destinationLng: Double? = null,
-    val remainingDistanceMeters: Double = 0.0,
-    val destinationReached: Boolean = false,
-    val routePointCount: Int = 0,
-    val routeStartLat: Double? = null,
-    val routeStartLng: Double? = null,
-    val targetDurationSeconds: Int = 0,
-    val targetDurationReached: Boolean = false,
-    val createdAt: String,
-    val setEntries: List<WeightLiftingSetEntry>
-)
-
-data class RouteSummary(
-    val pointCount: Int = 0,
-    val firstPoint: LatLng? = null
-)

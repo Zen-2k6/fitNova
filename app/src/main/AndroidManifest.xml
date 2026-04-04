@@ -19,34 +19,31 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.FitNova">
         <activity
-            android:name=".FitnessActivity"
+            android:name=".dashboard.FitnessActivity"
             android:exported="false" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".auth.RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".WorkoutHistoryActivity"
+            android:name=".workout.history.WorkoutHistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".AnalysisReportActivity"
+            android:name=".analysis.AnalysisReportActivity"
             android:exported="false" />
         <activity
-            android:name=".WorkoutTrackerActivity"
+            android:name=".workout.strength.WeightLiftingActivity"
             android:exported="false" />
         <activity
-            android:name=".WeightLiftingActivity"
-            android:exported="false" />
-        <activity
-            android:name=".WalkingMapActivity"
+            android:name=".workout.outdoor.OutdoorWorkoutActivity"
             android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="PUT-YOUR-API-KEY-HERE" />
         <activity
-            android:name=".MainActivity"
+            android:name=".auth.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

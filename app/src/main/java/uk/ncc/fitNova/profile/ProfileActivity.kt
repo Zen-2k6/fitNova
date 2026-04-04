@@ -1,6 +1,5 @@
-package uk.ncc.fitNova
+package uk.ncc.fitNova.profile
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -20,6 +19,11 @@ import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONException
 import org.json.JSONObject
+import uk.ncc.fitNova.R
+import uk.ncc.fitNova.auth.MainActivity
+import uk.ncc.fitNova.data.prefs.SessionPrefs
+import uk.ncc.fitNova.data.remote.BackendConfig
+import uk.ncc.fitNova.ui.applyBlackSystemBars
 import kotlin.math.pow
 
 class ProfileActivity : AppCompatActivity() {
@@ -42,17 +46,19 @@ class ProfileActivity : AppCompatActivity() {
     private var userId = -1
     private var gender = ""
     private var isSaving = false
+    private val sessionPrefs by lazy { SessionPrefs(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_profile)
+        applyBlackSystemBars(this)
         applySystemBarInsets(findViewById(R.id.main))
 
         bindViews()
         bindActions()
 
-        userId = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).getInt("User_id", -1)
+        userId = sessionPrefs.getUserId()
         if (userId <= 0) {
             Toast.makeText(this, R.string.profile_session_missing, Toast.LENGTH_SHORT).show()
             finish()
@@ -89,7 +95,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
         logoutButton.setOnClickListener {
-            getSharedPreferences("UserPrefs", Context.MODE_PRIVATE).edit().clear().apply()
+            sessionPrefs.clear()
             openLoginScreen()
         }
 
@@ -127,14 +133,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun populateFromSession() {
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+        val session = sessionPrefs.read()
         val profile = ProfileData(
-            fullName = sharedPref.getString("Full_name", "").orEmpty(),
-            email = sharedPref.getString("Email", "").orEmpty(),
-            gender = sharedPref.getString("Gender", "").orEmpty(),
-            age = sharedPref.getInt("Age", 25).takeIf { it > 0 } ?: 25,
-            weight = sharedPref.getInt("Weight", 70).takeIf { it > 0 } ?: 70,
-            height = sharedPref.getInt("Height", 170).takeIf { it > 0 } ?: 170
+            fullName = session.fullName,
+            email = session.email,
+            gender = session.gender,
+            age = session.age.takeIf { it > 0 } ?: 25,
+            weight = session.weight.takeIf { it > 0 } ?: 70,
+            height = session.height.takeIf { it > 0 } ?: 170
         )
         applyProfile(profile, persistToSession = false)
     }
@@ -314,16 +320,14 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateSession(profile: ProfileData) {
-        val sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
-        with(sharedPref.edit()) {
-            putString("Full_name", profile.fullName)
-            putString("Email", profile.email)
-            putString("Gender", profile.gender)
-            putInt("Age", profile.age)
-            putInt("Weight", profile.weight)
-            putInt("Height", profile.height)
-            apply()
-        }
+        sessionPrefs.updateProfile(
+            fullName = profile.fullName,
+            email = profile.email,
+            gender = profile.gender,
+            age = profile.age,
+            weight = profile.weight,
+            height = profile.height
+        )
     }
 
     private fun resetSaveButton() {
